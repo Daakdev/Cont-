@@ -16,7 +16,7 @@
 
 .background {
     flex: 1;
-    background-image: url("./assets/img/scott-graham-5fNmWej4tAA-unsplash.jpg");
+    background-image: url("../img/heroImg.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

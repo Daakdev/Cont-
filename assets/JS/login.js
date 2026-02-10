@@ -6,17 +6,7 @@ window.addEventListener("load", () => {
 
     setTimeout(() => {
         login.classList.add("show");
-    }, 400); // delay para que se vea más fluido
-});
-
-window.addEventListener('load', () => {
-    const background = document.querySelector('.background');
-    const login = document.querySelector('.login');
-    
-    setTimeout(() => {
-        background.classList.add('show');
-        login.classList.add('show');
-    }, 100);
+    }, 400);
 });
 
 // Mostrar formulario de registro
