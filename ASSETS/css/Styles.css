@@ -1,0 +1,302 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    background-color: #f0f0f0;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ── PANEL AZUL LOGIN ── */
+.background-login {
+    width: 45%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 30px;
+    position: absolute;
+    left: 0;
+    z-index: 2;
+    background-color: #009dff;
+    box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.5);
+    border-radius: 0 70px 70px 0;
+}
+
+/* ir a registro: expande → sale por izquierda */
+.container.show-register .background-login {
+    width: 100%;
+    left: -100%;
+    border-radius: 0;
+    opacity: 0;
+    transition:
+        width 0.5s ease 0s,
+        border-radius 0.5s ease 0s,
+        left 0.5s ease 0.5s,
+        opacity 0.2s ease 0.5s;
+}
+
+/* volver al login: entra → se encoge */
+.container.was-register .background-login {
+    width: 45%;
+    left: 0;
+    border-radius: 0 70px 70px 0;
+    opacity: 1;
+    transition:
+        left 0.5s ease 1s,
+        opacity 0.3s ease 1s,
+        width 0.5s ease 1.5s,
+        border-radius 0.5s ease 1.5s;
+}
+
+/* ── FORMULARIO LOGIN ── */
+.login {
+    position: absolute;
+    left: 45%;
+    width: 55%;
+    height: 100%;
+    padding: 50px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* desaparece rápido al ir a registro */
+.container.show-register .login {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease 0s;
+}
+
+/* aparece después de que el panel azul termine de entrar */
+.container.was-register .login {
+    opacity: 1;
+    pointer-events: all;
+    transition: opacity 0.4s ease 2.1s;
+}
+
+/* ── PANEL AZUL REGISTER ── */
+.background-register {
+    width: 45%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 30px;
+    position: absolute;
+    right: -100%;
+    z-index: 2;
+    background-color: #009dff;
+    box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.5);
+    border-radius: 70px 0 0 70px;
+}
+
+/* ir a registro: entra → se encoge */
+.container.show-register .background-register {
+    width: 45%;
+    right: 0;
+    border-radius: 70px 0 0 70px;
+    transition:
+        right 0.5s ease 1s,
+        width 0.5s ease 1.5s,
+        border-radius 0.5s ease 1.5s;
+}
+
+/* volver al login: expande → sale por derecha */
+.container.was-register .background-register {
+    width: 100%;
+    right: -100%;
+    border-radius: 0;
+    transition:
+        width 0.5s ease 0s,
+        border-radius 0.5s ease 0s,
+        right 0.5s ease 0.5s;
+}
+
+/* ── FORMULARIO REGISTER ── */
+.register {
+    position: absolute;
+    left: 0;
+    width: 55%;
+    height: 100%;
+    padding: 50px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* aparece después de que el panel azul termine de encogerse */
+.container.show-register .register {
+    opacity: 1;
+    pointer-events: all;
+    transition: opacity 0.4s ease 2.1s;
+}
+
+/* desaparece rápido al volver al login */
+.container.was-register .register {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease 0s;
+}
+
+.login .input-group {
+    position: relative;
+    width: 70%;
+    margin-top: 25px;
+}
+
+.login .input-group input {
+    width: 100%;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    color: #333;
+    padding: 10px 20px;
+    text-align: left;
+    transition: border-color 0.3s ease,
+    0.15s all ease;
+}
+
+.login .input-group input:focus {
+    border-color: #009dff;
+}
+
+/* ── INPUTS REGISTER ── */
+.register .input-group {
+    position: relative;
+    width: 70%;
+    margin-top: 25px;
+}
+
+.register .input-group input {
+    width: 100%;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    color: #333;
+    padding: 10px 20px;
+    text-align: left;
+    transition: border-color 0.3s ease, 0.15s all ease;
+}
+
+.register .input-group input:focus {
+    border-color: #009dff;
+}
+
+.input-group input:focus {
+    border-color: #009dff;
+}
+
+
+.input-group .form-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #999;
+    font-size: 16px;
+    pointer-events: none;
+    transition: 0.15s all ease;
+}
+
+.input-group input:focus + .form-label,
+.input-group input:not(:placeholder-shown) + .form-label {
+    transform: translate(5px, -30px);
+    font-size: 12px;
+    color: #009dff;
+}
+
+.forgot {
+    font-size: 14px;
+    color: #009dff;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: right;
+    width: 70%;
+    margin-top: 15px;
+    display: block;
+}
+
+/* ── BOTONES FORMULARIO ── */
+.login button,
+.register button {
+    width: 70%;
+    padding: 10px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #009dff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    background: linear-gradient(to right, #009dff, #0055ff);
+    transition: background .5s ease;
+    margin-top: 25px;
+}
+
+.login button:hover,
+.register button:hover {
+    background: linear-gradient(to right, #0055ff, #009dff);    
+}
+
+/* ── BOTONES PANELES AZULES ── */
+.background-login .content button,
+.background-register .content button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #009dff;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.background-login .content button:hover,
+.background-register .content button:hover {
+    background-color: #009dff;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+}
+
+.background-login .content,
+.background-register .content {
+    text-align: center;
+    color: #ffffff;
+}
+
+.background-login .content h1,
+.background-register .content h1 {
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+}
+
+.background-login .content p,
+.background-register .content p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.background-login .content img,
+.background-register .content img {
+    width: 150px;
+    position: absolute;
+    left: 30px;
+    top: 15px;
+}

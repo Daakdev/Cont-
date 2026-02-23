@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/Styles.css">
+    <link rel="shortcut icon" href="/icon.svg" type="image/x-icon">
+</head>
+<body>
+<div class="container" id="container">
+
+    <!-- PANEL AZUL LOGIN -->
+    <div class="background-login">
+        <div class="content">
+            <img src="/logo.svg" alt="">
+            <h1>Hola, Bienvenido</h1>
+            <p>No tienes cuenta?</p>
+            <button onclick="showRegister()">Regístrate</button>
+        </div>
+    </div>
+
+    <div class="login">
+        <div class="input-group">
+            <input type="text" placeholder=" "/>
+            <label class="form-label">Usuario</label>
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder=" "/>
+            <label class="form-label">Contraseña</label>
+        </div>
+        <a class="forgot">Olvidaste tu contraseña?</a>
+        <button>Iniciar Sesión</button>
+    </div>
+
+    <div class="register">
+        <div class="input-group">
+            <input type="text" placeholder=" " />
+            <label class="form-label">Usuario</label>
+        </div>
+        <div class="input-group">
+            <input type="email" placeholder=" "/>
+            <label class="form-label">Correo Electrónico</label>
+         </div>
+        <div class="input-group">
+            <input type="password" placeholder=" "/>
+            <label class="form-label">Contraseña</label>
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder=" ">
+            <label class="form-label">Confirmar Contraseña</label>
+        </div>
+        <button>Registrarse</button>
+    
+    </div>
+
+    <div class="background-register">
+        <div class="content">
+            <img src="/logo.svg" alt="">
+            <h1>Bienvenido de vuelta</h1>
+            <p>Ya tienes cuenta?</p>
+            <button onclick="showLogin()">Inicia Sesión</button>
+        </div>
+    </div>
+
+</div>
+
+<script src="/script.js"></script>
+</body>
+</html>
