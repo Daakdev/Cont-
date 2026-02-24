@@ -12,13 +12,14 @@
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <img class="slidebar-logo" src="./assets/img/logo.svg" alt="">
+    <img class="sidebar-logo" src="./assets/img/logo.svg" alt="">
+    <img src="./assets/img/icon.svg" alt="" class="sidebar-icon">
   </div>
 
   <div class="sidebar-user">
-    <div class="user-avatar">X</div>
+    <span class="user-avatar inicialUsuario"></span>
     <div class="user-info">
-      <div class="user-name">Xxxx Xxx</div>
+      <div class="user-name"><span class="user-name nombreUsuario"></span></div>
       <div class="user-role">Administrador</div>
     </div>
   </div>
@@ -58,7 +59,7 @@
       <span class="nav-label">Empleados</span>
     </div>
     <div class="nav-item" onclick="setActive(this)">
-      <div class="nav-icon">$</div>
+      <img src="./assets/img/price.png" alt="">
       <span class="nav-label">Gastos</span>
     </div>
 
@@ -96,14 +97,14 @@
 
   <div class="content">
     <div class="greeting">
-      <h2>Buenos días, <span id="nombreUsuario"></span> 👋</h2>
+      <h2>Buenos días, <span class="nombreUsuario"></span> 👋</h2>
       <p>Aquí tienes un resumen de tu negocio hoy.</p>
     </div>
 
     <!-- ROW 1 -->
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-icon c-blue"></div>
+        <div class="stat-icon c-blue"><img src="./assets/img/sales.png" alt=""></div>
         <div class="stat-info">
           <div class="stat-label">Ventas</div>
           <div class="stat-value">0</div>
@@ -111,7 +112,7 @@
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon c-orange"></div>
+        <div class="stat-icon c-orange"><img src="./assets/img/barcode.png" alt=""></div>
         <div class="stat-info">
           <div class="stat-label">Inventario</div>
           <div class="stat-value">0</div>
@@ -119,7 +120,7 @@
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon c-teal"></div>
+        <div class="stat-icon c-teal"><img src="./assets/img/clients.png" alt=""></div>
         <div class="stat-info">
           <div class="stat-label">Clientes</div>
           <div class="stat-value">0</div>
@@ -127,7 +128,7 @@
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon c-red"></div>
+        <div class="stat-icon c-red"><img src="./assets/img/clients.png" alt=""></div>
         <div class="stat-info">
           <div class="stat-label">Proveedores</div>
           <div class="stat-value">0</div>
@@ -139,7 +140,7 @@
     <!-- ROW 2 -->
     <div class="stats-grid" style="margin-bottom:24px;">
       <div class="stat-card">
-        <div class="stat-icon c-green"></div>
+        <div class="stat-icon c-green"><img src="./assets/img/clients.png" alt=""></div>
         <div class="stat-info">
           <div class="stat-label">Vendedores</div>
           <div class="stat-value">0</div>
@@ -147,7 +148,7 @@
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon c-orange"></div>
+        <div class="stat-icon c-orange"><img src="./assets/img/clients.png" alt=""></div>
         <div class="stat-info">
           <div class="stat-label">Empleados</div>
           <div class="stat-value">0</div>
@@ -155,7 +156,7 @@
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon c-purple"></div>
+        <div class="stat-icon c-purple"><img src="./assets/img/shopping.png" alt=""></div>
         <div class="stat-info">
           <div class="stat-label">Compras</div>
           <div class="stat-value">0</div>
@@ -163,7 +164,7 @@
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon c-yellow"></div>
+        <div class="stat-icon c-yellow"><img src="./assets/img/price.png" alt=""></div>
         <div class="stat-info">
           <div class="stat-label">Gastos</div>
           <div class="stat-value">0</div>
