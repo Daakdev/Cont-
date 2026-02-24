@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cont+</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="./assets/css/stylesUsers.css"/>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img class="slidebar-logo" src="/assets/img/logo.svg" alt="">
+  </div>
+
+  <div class="sidebar-user">
+    <div class="user-avatar">X</div>
+    <div class="user-info">
+      <div class="user-name">Xxxx Xxx</div>
+      <div class="user-role">Administrador</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-title">Principal</div>
+    <div class="nav-item active" onclick="setActive(this)">
+      <div class="nav-icon" style="border-radius:3px;width:18px;height:18px;"></div>
+      <span class="nav-label">Inicio</span>
+    </div>
+
+    <div class="nav-section-title">Gestión</div>
+    <div class="nav-item" onclick="setActive(this)">
+      <div class="nav-icon"></div>
+      <span class="nav-label">Ventas</span>
+    </div>
+    <div class="nav-item" onclick="setActive(this)">
+      <div class="nav-icon"></div>
+      <span class="nav-label">Inventario</span>
+    </div>
+    <div class="nav-item" onclick="setActive(this)">
+      <div class="nav-icon"></div>
+      <span class="nav-label">Clientes</span>
+    </div>
+    <div class="nav-item" onclick="setActive(this)">
+      <div class="nav-icon"></div>
+      <span class="nav-label">Proveedores</span>
+    </div>
+
+    <div class="nav-section-title">Finanzas</div>
+    <div class="nav-item" onclick="setActive(this)">
+      <div class="nav-icon"></div>
+      <span class="nav-label">Compras</span>
+    </div>
+    <div class="nav-item" onclick="setActive(this)">
+      <div class="nav-icon"></div>
+      <span class="nav-label">Empleados</span>
+    </div>
+    <div class="nav-item" onclick="setActive(this)">
+      <div class="nav-icon"></div>
+      <span class="nav-label">Gastos</span>
+    </div>
+
+    <div class="nav-section-title">Sistema</div>
+    <div class="nav-item" onclick="setActive(this)">
+      <div class="nav-icon"></div>
+      <span class="nav-label">Configuración</span>
+    </div>
+  </nav>
+
+  <div class="sidebar-toggle" onclick="toggleSidebar()">
+    <div class="toggle-icon">
+      <span></span><span></span><span></span>
+    </div>
+    <span class="toggle-label">Contraer</span>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <span class="topbar-title">Dashboard</span>
+    <div class="topbar-actions">
+      <button class="topbar-btn"><div class="btn-icon" style="border-radius:3px;"></div></button>
+      <button class="topbar-btn">
+        <div class="btn-icon"></div>
+        <span class="notif-dot"></span>
+      </button>
+      <button class="topbar-btn"><div class="btn-icon"></div></button>
+      <div class="topbar-user">
+        <div class="topbar-avatar">X</div>
+        <span class="topbar-uname">Xxxx Xxx</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="greeting">
+      <h2>Buenos días, Xxxx 👋</h2>
+      <p>Aquí tienes un resumen de tu negocio hoy.</p>
+    </div>
+
+    <!-- ROW 1 -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon c-blue"></div>
+        <div class="stat-info">
+          <div class="stat-label">Ventas</div>
+          <div class="stat-value">0</div>
+          <div class="stat-change up">Sin datos</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon c-orange"></div>
+        <div class="stat-info">
+          <div class="stat-label">Inventario</div>
+          <div class="stat-value">0</div>
+          <div class="stat-change down">Sin datos</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon c-teal"></div>
+        <div class="stat-info">
+          <div class="stat-label">Clientes</div>
+          <div class="stat-value">0</div>
+          <div class="stat-change up">Sin datos</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon c-red"></div>
+        <div class="stat-info">
+          <div class="stat-label">Proveedores</div>
+          <div class="stat-value">0</div>
+          <div class="stat-change up">Sin datos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2 -->
+    <div class="stats-grid" style="margin-bottom:24px;">
+      <div class="stat-card">
+        <div class="stat-icon c-green"></div>
+        <div class="stat-info">
+          <div class="stat-label">Vendedores</div>
+          <div class="stat-value">0</div>
+          <div class="stat-change neutral">Sin datos</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon c-orange"></div>
+        <div class="stat-info">
+          <div class="stat-label">Empleados</div>
+          <div class="stat-value">0</div>
+          <div class="stat-change up">Sin datos</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon c-purple"></div>
+        <div class="stat-info">
+          <div class="stat-label">Compras</div>
+          <div class="stat-value">0</div>
+          <div class="stat-change down">Sin datos</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon c-yellow"></div>
+        <div class="stat-info">
+          <div class="stat-label">Gastos</div>
+          <div class="stat-value">0</div>
+          <div class="stat-change down">Sin datos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="bottom-grid">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Ventas Recientes</span>
+          <span class="panel-link">Ver todas →</span>
+        </div>
+        <div class="skel-table">
+          <div class="skel-th">
+            <div class="skel" style="height:12px;width:30px;"></div>
+            <div class="skel" style="height:12px;width:80px;"></div>
+            <div class="skel" style="height:12px;width:100px;"></div>
+            <div class="skel" style="height:12px;width:60px;margin-left:auto;"></div>
+            <div class="skel" style="height:12px;width:60px;"></div>
+          </div>
+          <div class="skel-row">
+            <div class="skel" style="height:14px;width:30px;"></div>
+            <div class="skel" style="height:14px;width:90px;"></div>
+            <div class="skel" style="height:14px;width:110px;"></div>
+            <div class="skel" style="height:14px;width:50px;margin-left:auto;"></div>
+            <div class="skel badge-skel"></div>
+          </div>
+          <div class="skel-row">
+            <div class="skel" style="height:14px;width:30px;"></div>
+            <div class="skel" style="height:14px;width:70px;"></div>
+            <div class="skel" style="height:14px;width:130px;"></div>
+            <div class="skel" style="height:14px;width:40px;margin-left:auto;"></div>
+            <div class="skel badge-skel"></div>
+          </div>
+          <div class="skel-row">
+            <div class="skel" style="height:14px;width:30px;"></div>
+            <div class="skel" style="height:14px;width:100px;"></div>
+            <div class="skel" style="height:14px;width:90px;"></div>
+            <div class="skel" style="height:14px;width:55px;margin-left:auto;"></div>
+            <div class="skel badge-skel"></div>
+          </div>
+          <div class="skel-row">
+            <div class="skel" style="height:14px;width:30px;"></div>
+            <div class="skel" style="height:14px;width:85px;"></div>
+            <div class="skel" style="height:14px;width:120px;"></div>
+            <div class="skel" style="height:14px;width:45px;margin-left:auto;"></div>
+            <div class="skel badge-skel"></div>
+          </div>
+          <div class="skel-row">
+            <div class="skel" style="height:14px;width:30px;"></div>
+            <div class="skel" style="height:14px;width:75px;"></div>
+            <div class="skel" style="height:14px;width:105px;"></div>
+            <div class="skel" style="height:14px;width:50px;margin-left:auto;"></div>
+            <div class="skel badge-skel"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Ventas por mes</span>
+        </div>
+        <div class="bar-chart">
+          <div class="bar-wrap"><div class="bar" style="height:40%;animation-delay:.1s"></div><span class="bar-label">Ene</span></div>
+          <div class="bar-wrap"><div class="bar" style="height:60%;animation-delay:.15s"></div><span class="bar-label">Feb</span></div>
+          <div class="bar-wrap"><div class="bar" style="height:45%;animation-delay:.2s"></div><span class="bar-label">Mar</span></div>
+          <div class="bar-wrap"><div class="bar" style="height:80%;animation-delay:.25s"></div><span class="bar-label">Abr</span></div>
+          <div class="bar-wrap"><div class="bar" style="height:65%;animation-delay:.3s"></div><span class="bar-label">May</span></div>
+          <div class="bar-wrap"><div class="bar active" style="height:90%;animation-delay:.35s"></div><span class="bar-label">Jun</span></div>
+        </div>
+
+        <div class="mini-section-title">Top Productos</div>
+        <div class="mini-item">
+          <div class="mini-dot" style="background:#009dff"></div>
+          <div><div class="mini-name">Sin producto</div><div class="mini-sub">0</div></div>
+          <div class="mini-val">$0</div>
+        </div>
+        <div class="mini-item">
+          <div class="mini-dot" style="background:#f97316"></div>
+          <div><div class="mini-name">Sin producto"</div><div class="mini-sub">0</div></div>
+          <div class="mini-val">$0</div>
+        </div>
+        <div class="mini-item">
+          <div class="mini-dot" style="background:#22c55e"></div>
+          <div><div class="mini-name">Sin producto</div><div class="mini-sub">0</div></div>
+          <div class="mini-val">$0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+  }
+  function setActive(el) {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+  }
+</script>
+</body>
+</html>
