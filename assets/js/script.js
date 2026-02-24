@@ -43,7 +43,7 @@ function iniciarSesion() {
     if (usuario === datosGuardados.usuario && password === datosGuardados.password) {
 
         // Redirige solo si coincide
-        window.location.replace("/users.html");
+        window.location.replace("../users.html");
 
     } else {
         alert("Usuario o contraseña incorrectos");
