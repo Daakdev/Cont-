@@ -215,6 +215,20 @@
     transition: 0.15s all ease;
 }
 
+.password-group {
+    position: relative;
+}
+
+.toggle-password {
+    width: 24px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
+}
+
 .input-group input:focus + .form-label,
 .input-group input:not(:placeholder-shown) + .form-label {
     transform: translate(5px, -30px);
