@@ -138,11 +138,8 @@ body {
     opacity: 0;
 }
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> d1c66cc8cf16abeaf01f884c984dc73dd781f672
 .nav-item {
     display: flex;
     align-items: center;
@@ -166,21 +163,11 @@ body {
     color: #fff;
 }
 
-<<<<<<< HEAD
 
 .nav-item img {
     width: 18px;
     height: 18px;
     filter: brightness(0) invert(1);
-=======
-.nav-icon {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    border-radius: 4px;
-    background: currentColor;
-    opacity: 0.7;
->>>>>>> d1c66cc8cf16abeaf01f884c984dc73dd781f672
 }
 
 .nav-item.active .nav-icon {
@@ -359,14 +346,11 @@ body {
     cursor: pointer;
 }
 
-<<<<<<< HEAD
 .topbar-user img {
     width: 18px;
     height: 18px;
 }
 
-=======
->>>>>>> d1c66cc8cf16abeaf01f884c984dc73dd781f672
 .topbar-avatar {
     width: 28px;
     height: 28px;
