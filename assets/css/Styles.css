@@ -1,3 +1,4 @@
+/* ── RESET ── */
 * {
     margin: 0;
     padding: 0;
@@ -5,17 +6,32 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* ── VARIABLES ── */
+:root {
+    --blue: #009dff;
+    --blue-gradient: linear-gradient(90deg, #1da1f2, #0d47a1);
+    --panel-gradient: linear-gradient(180deg, #1da1f2, #1565d8);
+    --bg: linear-gradient(135deg, #f5f7fa, #e4ecf7);
+    --weak-color: #e74c3c;
+    --medium-color: #f1c40f;
+    --strong-color: #2ecc71;
+}
+
+/* ── CONTAINER ── */
 .container {
     width: 100%;
     height: 100vh;
     display: flex;
-    background-color: #f0f0f0;
+    background: var(--bg);
     overflow: hidden;
     position: relative;
 }
 
-/* ── PANEL AZUL LOGIN ── */
-.background-login {
+/* ──────────────────────────────
+   PANELES AZULES
+────────────────────────────── */
+.background-login,
+.background-register {
     width: 45%;
     height: 100%;
     display: flex;
@@ -24,14 +40,22 @@
     justify-content: center;
     padding: 40px 30px;
     position: absolute;
-    left: 0;
     z-index: 2;
-    background-color: #009dff;
-    box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.5);
+    background: var(--panel-gradient);
+    box-shadow: 0 20px 50px 0 rgba(0, 0, 0, 0.15);
+}
+
+.background-login {
+    left: 0;
     border-radius: 0 70px 70px 0;
 }
 
-/* ir a registro: expande → sale por izquierda */
+.background-register {
+    right: -100%;
+    border-radius: 70px 0 0 70px;
+}
+
+/* ── ANIMACIONES PANEL LOGIN ── */
 .container.show-register .background-login {
     width: 100%;
     left: -100%;
@@ -44,7 +68,6 @@
         opacity 0.2s ease 0.5s;
 }
 
-/* volver al login: entra → se encoge */
 .container.was-register .background-login {
     width: 45%;
     left: 0;
@@ -57,53 +80,7 @@
         border-radius 0.5s ease 1.5s;
 }
 
-/* ── FORMULARIO LOGIN ── */
-.login {
-    position: absolute;
-    left: 45%;
-    width: 55%;
-    height: 100%;
-    padding: 50px 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    opacity: 1;
-    pointer-events: all;
-}
-
-/* desaparece rápido al ir a registro */
-.container.show-register .login {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease 0s;
-}
-
-/* aparece después de que el panel azul termine de entrar */
-.container.was-register .login {
-    opacity: 1;
-    pointer-events: all;
-    transition: opacity 0.4s ease 2.1s;
-}
-
-/* ── PANEL AZUL REGISTER ── */
-.background-register {
-    width: 45%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 30px;
-    position: absolute;
-    right: -100%;
-    z-index: 2;
-    background-color: #009dff;
-    box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.5);
-    border-radius: 70px 0 0 70px;
-}
-
-/* ir a registro: entra → se encoge */
+/* ── ANIMACIONES PANEL REGISTER ── */
 .container.show-register .background-register {
     width: 45%;
     right: 0;
@@ -114,7 +91,6 @@
         border-radius 0.5s ease 1.5s;
 }
 
-/* volver al login: expande → sale por derecha */
 .container.was-register .background-register {
     width: 100%;
     right: -100%;
@@ -125,169 +101,7 @@
         right 0.5s ease 0.5s;
 }
 
-/* ── FORMULARIO REGISTER ── */
-.register {
-    position: absolute;
-    left: 0;
-    width: 55%;
-    height: 100%;
-    padding: 50px 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* aparece después de que el panel azul termine de encogerse */
-.container.show-register .register {
-    opacity: 1;
-    pointer-events: all;
-    transition: opacity 0.4s ease 2.1s;
-}
-
-/* desaparece rápido al volver al login */
-.container.was-register .register {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease 0s;
-}
-
-.login .input-group {
-    position: relative;
-    width: 70%;
-    margin-top: 25px;
-}
-
-.login .input-group input {
-    width: 100%;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    outline: none;
-    color: #333;
-    padding: 10px 20px;
-    text-align: left;
-    transition: border-color 0.3s ease,
-    0.15s all ease;
-}
-
-.login .input-group input:focus {
-    border-color: #009dff;
-}
-
-/* ── INPUTS REGISTER ── */
-.register .input-group {
-    position: relative;
-    width: 70%;
-    margin-top: 25px;
-}
-
-.register .input-group input {
-    width: 100%;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    outline: none;
-    color: #333;
-    padding: 10px 20px;
-    text-align: left;
-    transition: border-color 0.3s ease, 0.15s all ease;
-}
-
-.register .input-group input:focus {
-    border-color: #009dff;
-}
-
-.input-group input:focus {
-    border-color: #009dff;
-}
-
-
-.input-group .form-label {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    color: #999;
-    font-size: 16px;
-    pointer-events: none;
-    transition: 0.15s all ease;
-}
-
-.password-group {
-    position: relative;
-}
-
-.toggle-password {
-    width: 24px;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    user-select: none;
-}
-
-.input-group input:focus + .form-label,
-.input-group input:not(:placeholder-shown) + .form-label {
-    transform: translate(5px, -30px);
-    font-size: 12px;
-    color: #009dff;
-}
-
-.forgot {
-    font-size: 14px;
-    color: #009dff;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: right;
-    width: 70%;
-    margin-top: 15px;
-    display: block;
-}
-
-/* ── BOTONES FORMULARIO ── */
-.login button,
-.register button {
-    width: 70%;
-    padding: 10px;
-    font-size: 16px;
-    color: #ffffff;
-    background-color: #009dff;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    background: linear-gradient(to right, #009dff, #0055ff);
-    transition: background .5s ease;
-    margin-top: 25px;
-}
-
-.login button:hover,
-.register button:hover {
-    background: linear-gradient(to right, #0055ff, #009dff);    
-}
-
-/* ── BOTONES PANELES AZULES ── */
-.background-login .content button,
-.background-register .content button {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #009dff;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.background-login .content button:hover,
-.background-register .content button:hover {
-    background-color: #009dff;
-    color: #ffffff;
-    border: 2px solid #ffffff;
-}
-
+/* ── CONTENIDO PANELES ── */
 .background-login .content,
 .background-register .content {
     text-align: center;
@@ -313,4 +127,275 @@
     position: absolute;
     left: 30px;
     top: 15px;
+}
+
+/* ── BOTONES PANELES ── */
+.background-login .content button,
+.background-register .content button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: var(--blue);
+    background-color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.background-login .content button:hover,
+.background-register .content button:hover {
+    background-color: var(--blue);
+    color: #ffffff;
+    border: 2px solid #ffffff;
+}
+
+/* ──────────────────────────────
+   FORMULARIOS
+────────────────────────────── */
+.login,
+.register {
+    position: absolute;
+    width: 55%;
+    height: 100%;
+    padding: 50px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login {
+    left: 45%;
+    opacity: 1;
+    pointer-events: all;
+}
+
+.register {
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ── ANIMACIONES FORMULARIO LOGIN ── */
+.container.show-register .login {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease 0s;
+}
+
+.container.was-register .login {
+    opacity: 1;
+    pointer-events: all;
+    transition: opacity 0.4s ease 2.1s;
+}
+
+/* ── ANIMACIONES FORMULARIO REGISTER ── */
+.container.show-register .register {
+    opacity: 1;
+    pointer-events: all;
+    transition: opacity 0.4s ease 2.1s;
+}
+
+.container.was-register .register {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease 0s;
+}
+
+/* ──────────────────────────────
+   INPUTS
+────────────────────────────── */
+.login .input-group,
+.register .input-group {
+    position: relative;
+    width: 70%;
+    margin-top: 25px;
+}
+
+.login .input-group input,
+.register .input-group input {
+    width: 100%;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    color: #333;
+    padding: 10px 44px 10px 20px;
+    text-align: left;
+    background: #ffffff;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.05);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login .input-group input:focus,
+.register .input-group input:focus {
+    border: 1px solid #e4ecf7;
+    box-shadow: 0 0 0 2px rgba(29, 161, 242, 0.15);
+}
+
+/* ── LABEL FLOTANTE ── */
+.input-group .form-label {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    color: #999;
+    font-size: 16px;
+    pointer-events: none;
+    transition: all 0.15s ease;
+}
+
+.input-group input:focus + .form-label,
+.input-group input:not(:placeholder-shown) + .form-label {
+    transform: translate(0px, -30px);
+    font-size: 12px;
+    color: var(--blue);
+}
+
+/* ── OJO CONTRASEÑA ── */
+.toggle-password {
+    width: 22px;
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
+    z-index: 1;
+}
+
+/* ──────────────────────────────
+   MEDIDOR DE CONTRASEÑA
+────────────────────────────── */
+.strength-meter {
+    width: 70%;
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 10px;
+    display: none;
+}
+
+.strength-meter.visible {
+    display: block;
+}
+
+.strength-meter::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 0;
+    left: 0;
+    border-radius: 4px;
+    transition: width 0.4s ease, background-color 0.4s ease;
+}
+
+.strength-meter.weak::before   { width: 33%; background: var(--weak-color); }
+.strength-meter.medium::before { width: 66%; background: var(--medium-color); }
+.strength-meter.strong::before { width: 100%; background: var(--strong-color); }
+
+/* ──────────────────────────────
+   OTROS ELEMENTOS
+────────────────────────────── */
+.forgot {
+    font-size: 14px;
+    color: var(--blue);
+    cursor: pointer;
+    text-decoration: none;
+    text-align: right;
+    width: 70%;
+    margin-top: 15px;
+    display: block;
+}
+
+.forgot:hover {
+    text-decoration: underline;
+}
+
+.error-register {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* ── BOTONES FORMULARIO ── */
+.login button,
+.register button {
+    width: 70%;
+    padding: 10px;
+    font-size: 16px;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    background: var(--blue-gradient);
+    box-shadow: 0 4px 15px 0 rgba(13, 71, 161, 0.3);
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.login button:hover,
+.register button:hover {
+    transform: translateY(1px);
+    box-shadow: 0 6px 18px rgba(13, 71, 161, 0.4);
+}
+
+/* ──────────────────────────────
+   MODAL / ALERT
+────────────────────────────── */
+.alert-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.alert-box {
+    background: #ffffff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease;
+}
+
+.alert-box .alert-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 15px;
+    font-size: 36px;
+    line-height: 50px;
+}
+
+.alert-box p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.alert-box button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    background: var(--blue-gradient);
+    box-shadow: 0 4px 15px 0 rgba(13, 71, 161, 0.3);
+    transition: all 0.3s ease;
+}
+
+.alert-box button:hover {
+    transform: translateY(1px);
+    box-shadow: 0 6px 18px rgba(13, 71, 161, 0.4);
+}
+
+@keyframes fadeIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
 }

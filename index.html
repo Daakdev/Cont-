@@ -31,7 +31,7 @@
             <img src="./assets/img/eyeOn.png" class="toggle-password" onclick="togglePassword('password', this)" alt="">
         </div>
         <a class="forgot">Olvidaste tu contraseña?</a>
-        <button onclick="iniciarSesion()">Iniciar Sesión</button>
+        <button onclick="login()">Iniciar Sesión</button>
     </div>
 
     <div class="register">
@@ -53,8 +53,9 @@
             <label class="form-label">Confirmar Contraseña</label>
             <img src="./assets/img/eyeOn.png" class="toggle-password" onclick="togglePassword('confirmar-password', this)" alt="">
         </div>
-        <p id="error-register"></p>
-        <button onclick="registrarse()">Registrarse</button>
+        <div class="strength-meter" id="strengthBar"></div>
+        <p id="error-register" class="error-register"></p>
+        <button onclick="register()">Registrarse</button>
     
     </div>
 
@@ -66,9 +67,14 @@
             <button onclick="showLogin()">Inicia Sesión</button>
         </div>
     </div>
-
 </div>
-
+<div class="alert-overlay" id="alertOverlay">
+    <div class="alert-box">
+        <div class="alert-icon" id="alertIcon"></div>
+        <p id="alertMessage">Mensaje</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+</div>
 <script src="./assets/js/script.js"></script>
 </body>
 </html>
