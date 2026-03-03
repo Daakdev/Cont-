@@ -14,12 +14,16 @@ if (missingEnvVars.length > 0) {
 }
 
 const app  = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
+
+// Variable para controlar si la base de datos está conectada
+let isDbConnected = false;
 
 // Verificar conexión a la base de datos antes de iniciar el servidor
 db.getConnection()
     .then(connection => {
         console.log('✅ Conexión a la base de datos establecida');
+        isDbConnected = true;
         connection.release();
         
         // Continuar con la configuración del servidor
@@ -27,10 +31,9 @@ db.getConnection()
     })
     .catch(err => {
         console.error('❌ Error al conectar con la base de datos:', err.message);
-        // En producción, podemos iniciar el servidor pero sin DB
-        // Descomenta la siguiente línea si quieres iniciar sin DB:
-        // startServer();
-        process.exit(1);
+        console.log('⚠️  Iniciando servidor sin conexión a base de datos...');
+        // Iniciar el servidor sin DB para que el health check funcione
+        startServer();
     });
 
 function startServer() {
@@ -61,7 +64,11 @@ function startServer() {
 
     // Endpoint de salud para verificar que el servidor está corriendo
     app.get('/health', (req, res) => {
-        res.json({ status: 'OK', timestamp: new Date().toISOString() });
+        res.json({ 
+            status: 'OK', 
+            timestamp: new Date().toISOString(),
+            database: isDbConnected ? 'connected' : 'disconnected'
+        });
     });
 
     app.listen(PORT, () => {

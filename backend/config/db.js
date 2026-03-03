@@ -21,18 +21,21 @@ function createDbConnection() {
         console.log('🔗 Conectando via variables locales');
     }
     
-    const db = mysql.createConnection(connectionConfig);
+    // Usar createPool en lugar de createConnection para mejor manejo de conexiones
+    const pool = mysql.createPool(connectionConfig);
     
-    db.connect(err => {
-        if (err) {
-            console.error('❌ Error de conexión a BD:', err.message);
-            process.exit(1); // Detener la app si no hay conexión
-        } else {
+    // Verificar la conexión
+    pool.getConnection()
+        .then(connection => {
             console.log('✅ MySQL conectado exitosamente');
-        }
-    });
+            connection.release();
+        })
+        .catch(err => {
+            console.error('❌ Error de conexión a BD:', err.message);
+            // No salir del proceso - dejar que index.js maneje el error
+        });
     
-    return db;
+    return pool;
 }
 
 // Crear y exportar la conexión
