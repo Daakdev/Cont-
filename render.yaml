@@ -14,7 +14,7 @@ services:
     startCommand: npm start
     
     # Archivos del backend
-    repo: https://github.com/TU_USUARIO/TU_REPO.git
+    repo: https://github.com/Daakdev/Cont-.git
     branch: main
     rootDir: backend
     
@@ -41,7 +41,7 @@ services:
   # FRONTEND (Static)
   # =====================
   - name: cont-frontend
-    type: static
+    type: staticsite
     region: eu
     plan: free
     
@@ -49,7 +49,7 @@ services:
     startCommand: npx serve -s fronted/pages -l 8080
     
     # Archivos del frontend
-    repo: https://github.com/TU_USUARIO/TU_REPO.git
+    repo: https://github.com/Daakdev/Cont-.git
     branch: main
     rootDir: fronted
     
