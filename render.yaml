@@ -41,9 +41,8 @@ services:
   # FRONTEND (Static)
   # =====================
   - name: cont-frontend
-    type: staticsite
-    region: eu
-    plan: free
+    type: static
+
     
     buildCommand: npm install
     startCommand: npx serve -s fronted/pages -l 8080
