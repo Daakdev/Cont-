@@ -35,7 +35,6 @@ services:
     name: cont-frontend
     runtime: static
     rootDir: frontend
-    buildCommand: npm install && npm run build
     staticPublishPath: pages
     routes:
       - type: rewrite
