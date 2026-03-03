@@ -1,0 +1,69 @@
+# Blueprint de Despliegue para Cont+ en Render
+# Este archivo permite el despliegue automático del backend y frontend
+
+services:
+  # =====================
+  # BACKEND (API)
+  # =====================
+  - name: cont-backend
+    type: web
+    region: eu
+    plan: free
+    
+    buildCommand: npm install
+    startCommand: npm start
+    
+    # Archivos del backend
+    repo: https://github.com/TU_USUARIO/TU_REPO.git
+    branch: main
+    rootDir: backend
+    
+    # Variables de entorno requeridas
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false  # Configurar en el dashboard de Render
+      - key: JWT_SECRET
+        sync: false  # Generar y configurar en el dashboard
+      - key: DB_HOST
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        sync: false
+
+  # =====================
+  # FRONTEND (Static)
+  # =====================
+  - name: cont-frontend
+    type: static
+    region: eu
+    plan: free
+    
+    buildCommand: npm install
+    startCommand: npx serve -s fronted/pages -l 8080
+    
+    # Archivos del frontend
+    repo: https://github.com/TU_USUARIO/TU_REPO.git
+    branch: main
+    rootDir: fronted
+    
+    # Archivos estáticos a servir
+    staticPublishPath: fronted/pages
+    
+    # Configuración de headers para producción
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+
+# Configuración de red (si es necesario conectar servicios)
+# renderLinker:
+#   - service: cont-backend
+#     to: cont-frontend
+
