@@ -34,7 +34,7 @@ services:
   - type: web
     name: cont-frontend
     runtime: static
-    rootDir: fronted
+    rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: pages
     routes:
