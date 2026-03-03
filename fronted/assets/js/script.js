@@ -1,3 +1,8 @@
+const API = "http://localhost:3000/api/auth";
+
+/* ──────────────────────────────
+   INICIALIZACIÓN
+────────────────────────────── */
 window.addEventListener("load", () => {
   setTimeout(() => {
     document
@@ -7,15 +12,11 @@ window.addEventListener("load", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const datosGuardados = JSON.parse(
-    localStorage.getItem("usuarioRegistrado"),
-  );
-  if (
-    datosGuardados &&
-    document.getElementById("nombreUsuario")
-  ) {
+  // mostrar nombre de usuario si está logueado
+  const usuario = localStorage.getItem("usuario");
+  if (usuario && document.getElementById("nombreUsuario")) {
     document.getElementById("nombreUsuario").textContent =
-      datosGuardados.usuario;
+      usuario;
   }
 
   // medidor de contraseña
@@ -81,36 +82,44 @@ function showLogin() {
 /* ──────────────────────────────
    LOGIN
 ────────────────────────────── */
-function login() {
-  const user = document
+async function iniciarSesion() {
+  const usuario = document
     .getElementById("usuario-login")
     .value.trim();
   const password = document
     .getElementById("password")
     .value.trim();
-  const datosGuardados = JSON.parse(
-    localStorage.getItem("usuarioRegistrado"),
-  );
 
-  if (!datosGuardados) {
-    alert("No hay ningún usuario registrado");
+  if (!usuario || !password) {
+    alert("Por favor llena todos los campos");
     return;
   }
 
-  if (
-    user === datosGuardados.usuario &&
-    password === datosGuardados.password
-  ) {
-    window.location.replace("./users.html");
-  } else {
-    alert("Usuario o contraseña incorrectos");
+  try {
+    const res = await fetch(`${API}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ usuario, password }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error);
+      return;
+    }
+
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("usuario", data.usuario);
+    window.location.replace("../pages/users.html");
+  } catch (err) {
+    alert("Error de conexión con el servidor");
   }
 }
 
 /* ──────────────────────────────
    REGISTRO
 ────────────────────────────── */
-function register() {
+async function registrarse() {
   const usuario = document
     .getElementById("usuario-register")
     .value.trim();
@@ -147,34 +156,46 @@ function register() {
     return;
   }
 
-  localStorage.setItem(
-    "usuarioRegistrado",
-    JSON.stringify({ usuario, correo, password }),
-  );
+  try {
+    const res = await fetch(`${API}/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ usuario, correo, password }),
+    });
+    const data = await res.json();
 
-  document.getElementById("usuario-register").value = "";
-  document.getElementById("correo").value = "";
-  document.getElementById("password-register").value = "";
-  document.getElementById("confirmar-password").value = "";
+    if (!res.ok) {
+      mostrarError(data.error);
+      return;
+    }
 
-  mostrarAlerta(
-    "success",
-    "¡Registro exitoso! Ya puedes iniciar sesión.",
-  );
+    document.getElementById("usuario-register").value = "";
+    document.getElementById("correo").value = "";
+    document.getElementById("password-register").value = "";
+    document.getElementById("confirmar-password").value =
+      "";
+
+    mostrarAlerta(
+      "success",
+      "¡Registro exitoso! Ya puedes iniciar sesión.",
+    );
+  } catch (err) {
+    mostrarError("Error de conexión con el servidor");
+  }
 }
 
 /* ──────────────────────────────
-   TOGGLE CONTRASEÑA
+   TOGGLE CONTRASEÑA (OJO)
 ────────────────────────────── */
 function togglePassword(id, img) {
   const input = document.getElementById(id);
 
   if (input.type === "password") {
     input.type = "text";
-    img.src = "./assets/img/eyeClosed.svg";
+    img.src = "../assets/img/eyeClosed.svg";
   } else {
     input.type = "password";
-    img.src = "./assets/img/eyeOn.png";
+    img.src = "../assets/img/eyeOn.png";
   }
 }
 
@@ -188,10 +209,7 @@ function mostrarAlerta(tipo, mensaje) {
 
   if (tipo === "success") {
     icono.innerHTML =
-      '<img src="./assets/img/check.png" alt="Éxito" style="width:40px;height:40px;">';
-  } else if (tipo === "error") {
-    icono.innerHTML =
-      '<img src="./assets/img/error.png" alt="Error" style="width:40px;height:40px;">';
+      '<img src="../assets/img/check.png" alt="Éxito" style="width:40px;height:40px;">';
   }
 
   texto.innerText = mensaje;
@@ -215,4 +233,13 @@ function mostrarError(mensaje) {
   setTimeout(() => {
     error.style.opacity = "0";
   }, 3000);
+}
+
+/* ──────────────────────────────
+   LOGOUT
+────────────────────────────── */
+function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("usuario");
+  window.location.replace("../pages/index.html");
 }

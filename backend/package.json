@@ -1,0 +1,17 @@
+{
+  "name": "cont-backend",
+  "version": "1.0.0",
+  "description": "Backend de Cont+",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.18.2"
+  }
+}
