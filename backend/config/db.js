@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 require('dotenv').config();
 
 // Función para crear la conexión a la base de datos
@@ -6,20 +6,22 @@ require('dotenv').config();
 function createDbConnection() {
     let connectionConfig;
     
-    if (process.env.DATABASE_URL) {
-        // Render proporciona DATABASE_URL en formato mysql://user:password@host:port/database
-        connectionConfig = process.env.DATABASE_URL;
-        console.log('🔗 Conectando via DATABASE_URL (Aiven/Render)');
-    } else {
-        // Variables individuales para desarrollo local
-        connectionConfig = {
-            host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME
-        };
-        console.log('🔗 Conectando via variables locales');
-    }
+if (process.env.DATABASE_URL) {
+    const dbUrl = new URL(process.env.DATABASE_URL);
+
+    connectionConfig = {
+        host: dbUrl.hostname,
+        user: dbUrl.username,
+        password: dbUrl.password,
+        database: dbUrl.pathname.replace('/', ''),
+        port: dbUrl.port || 3306,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    };
+
+    console.log('🔗 Conectando via DATABASE_URL (Render)');
+}
     
     // Usar createPool en lugar de createConnection para mejor manejo de conexiones
     const pool = mysql.createPool(connectionConfig);
