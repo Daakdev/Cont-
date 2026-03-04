@@ -35,7 +35,7 @@ services:
     name: cont-frontend
     runtime: static
     rootDir: frontend
-    staticPublishPath: pages
+    staticPublishPath: .
     routes:
       - type: rewrite
         source: /*
