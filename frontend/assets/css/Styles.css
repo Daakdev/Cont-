@@ -177,7 +177,7 @@ html, body {
 }
 
 .register {
-    left: 45%;
+    left: 0;
     opacity: 0;
     pointer-events: none;
 }
