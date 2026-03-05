@@ -7,14 +7,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const frontendPath = path.join(__dirname, "../frontend");
-
-// servir archivos estáticos
-app.use(express.static(frontendPath));
+// servir CSS, JS, IMG
+app.use("/assets", express.static(path.join(__dirname, "../frontend/assets")));
 
 // página principal
 app.get("/", (req, res) => {
-  res.sendFile(path.join(frontendPath, "pages/index.html"));
+  res.sendFile(path.join(__dirname, "../frontend/pages/index.html"));
 });
 
 const PORT = process.env.PORT || 3000;
