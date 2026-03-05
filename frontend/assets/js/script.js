@@ -1,34 +1,45 @@
-// Determinar la URL de la API según el entorno
-const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const API = isLocalhost ? "http://localhost:3000/api/auth" : "/api/auth";
+/* ──────────────────────────────
+   CONFIGURACIÓN DE API
+────────────────────────────── */
+
+// Detectar si estamos en localhost
+const isLocalhost =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+
+// URL de API según entorno
+const API = isLocalhost
+  ? "http://localhost:3000/api/auth"
+  : "/api/auth";
 
 /* ──────────────────────────────
    INICIALIZACIÓN
 ────────────────────────────── */
+
 window.addEventListener("load", () => {
   setTimeout(() => {
-    document
-      .querySelector(".register")
-      .classList.remove("no-transition");
+    const register = document.querySelector(".register");
+    if (register) register.classList.remove("no-transition");
   }, 100);
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  // mostrar nombre de usuario si está logueado
+
+  // Mostrar nombre de usuario si existe
   const usuario = localStorage.getItem("usuario");
-  if (usuario && document.getElementById("nombreUsuario")) {
-    document.getElementById("nombreUsuario").textContent =
-      usuario;
+  const nombreUsuario = document.getElementById("nombreUsuario");
+
+  if (usuario && nombreUsuario) {
+    nombreUsuario.textContent = usuario;
   }
 
-  // medidor de contraseña
-  const passwordInput = document.getElementById(
-    "password-register",
-  );
-  const strengthBar =
-    document.getElementById("strengthBar");
+  /* MEDIDOR DE FUERZA DE CONTRASEÑA */
+
+  const passwordInput = document.getElementById("password-register");
+  const strengthBar = document.getElementById("strengthBar");
 
   if (passwordInput && strengthBar) {
+
     passwordInput.addEventListener("focus", () => {
       strengthBar.classList.add("visible");
     });
@@ -40,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     passwordInput.addEventListener("input", function () {
+
       const password = this.value;
 
       if (password.length === 0) {
@@ -48,35 +60,38 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       let strength = 0;
+
       if (password.length >= 8) strength++;
       if (/[A-Z]/.test(password)) strength++;
       if (/[0-9]/.test(password)) strength++;
       if (/[^A-Za-z0-9]/.test(password)) strength++;
 
       if (strength <= 1)
-        strengthBar.className =
-          "strength-meter weak visible";
+        strengthBar.className = "strength-meter weak visible";
       else if (strength <= 3)
-        strengthBar.className =
-          "strength-meter medium visible";
+        strengthBar.className = "strength-meter medium visible";
       else
-        strengthBar.className =
-          "strength-meter strong visible";
+        strengthBar.className = "strength-meter strong visible";
     });
   }
 });
 
 /* ──────────────────────────────
-   NAVEGACIÓN
+   CAMBIAR ENTRE LOGIN / REGISTER
 ────────────────────────────── */
+
 function showRegister() {
   const container = document.getElementById("container");
+  if (!container) return;
+
   container.classList.remove("was-register");
   container.classList.add("show-register");
 }
 
 function showLogin() {
   const container = document.getElementById("container");
+  if (!container) return;
+
   container.classList.remove("show-register");
   container.classList.add("was-register");
 }
@@ -84,13 +99,11 @@ function showLogin() {
 /* ──────────────────────────────
    LOGIN
 ────────────────────────────── */
+
 async function iniciarSesion() {
-  const usuario = document
-    .getElementById("usuario-login")
-    .value.trim();
-  const password = document
-    .getElementById("password")
-    .value.trim();
+
+  const usuario = document.getElementById("usuario-login").value.trim();
+  const password = document.getElementById("password").value.trim();
 
   if (!usuario || !password) {
     alert("Por favor llena todos los campos");
@@ -98,22 +111,28 @@ async function iniciarSesion() {
   }
 
   try {
+
     const res = await fetch(`${API}/login`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ usuario, password }),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ usuario, password })
     });
+
     const data = await res.json();
 
     if (!res.ok) {
-      alert(data.error);
+      alert(data.error || "Error al iniciar sesión");
       return;
     }
 
     localStorage.setItem("token", data.token);
     localStorage.setItem("usuario", data.usuario);
-    window.location.replace("../pages/users.html");
-  } catch (err) {
+
+    window.location.replace("/pages/users.html");
+
+  } catch (error) {
     alert("Error de conexión con el servidor");
   }
 }
@@ -121,19 +140,13 @@ async function iniciarSesion() {
 /* ──────────────────────────────
    REGISTRO
 ────────────────────────────── */
+
 async function registrarse() {
-  const usuario = document
-    .getElementById("usuario-register")
-    .value.trim();
-  const correo = document
-    .getElementById("correo")
-    .value.trim();
-  const password = document
-    .getElementById("password-register")
-    .value.trim();
-  const confirmar = document
-    .getElementById("confirmar-password")
-    .value.trim();
+
+  const usuario = document.getElementById("usuario-register").value.trim();
+  const correo = document.getElementById("correo").value.trim();
+  const password = document.getElementById("password-register").value.trim();
+  const confirmar = document.getElementById("confirmar-password").value.trim();
 
   if (!usuario || !correo || !password || !confirmar) {
     mostrarError("Por favor llena todos los campos");
@@ -141,15 +154,14 @@ async function registrarse() {
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   if (!emailRegex.test(correo)) {
     mostrarError("El correo no es válido");
     return;
   }
 
   if (password.length < 8) {
-    mostrarError(
-      "La contraseña debe tener al menos 8 caracteres",
-    );
+    mostrarError("La contraseña debe tener al menos 8 caracteres");
     return;
   }
 
@@ -159,59 +171,67 @@ async function registrarse() {
   }
 
   try {
+
     const res = await fetch(`${API}/register`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ usuario, correo, password }),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ usuario, correo, password })
     });
+
     const data = await res.json();
 
     if (!res.ok) {
-      mostrarError(data.error);
+      mostrarError(data.error || "Error al registrarse");
       return;
     }
 
     document.getElementById("usuario-register").value = "";
     document.getElementById("correo").value = "";
     document.getElementById("password-register").value = "";
-    document.getElementById("confirmar-password").value =
-      "";
+    document.getElementById("confirmar-password").value = "";
 
-    mostrarAlerta(
-      "success",
-      "¡Registro exitoso! Ya puedes iniciar sesión.",
-    );
-  } catch (err) {
+    mostrarAlerta("success", "¡Registro exitoso! Ya puedes iniciar sesión.");
+
+  } catch (error) {
     mostrarError("Error de conexión con el servidor");
   }
 }
 
 /* ──────────────────────────────
-   TOGGLE CONTRASEÑA (OJO)
+   MOSTRAR / OCULTAR CONTRASEÑA
 ────────────────────────────── */
+
 function togglePassword(id, img) {
+
   const input = document.getElementById(id);
+  if (!input) return;
 
   if (input.type === "password") {
     input.type = "text";
-    img.src = "../assets/img/eyeClosed.svg";
+    img.src = "/assets/img/eyeClosed.svg";
   } else {
     input.type = "password";
-    img.src = "../assets/img/eyeOn.png";
+    img.src = "/assets/img/eyeOn.png";
   }
 }
 
 /* ──────────────────────────────
-   MODAL
+   MODAL DE ALERTA
 ────────────────────────────── */
+
 function mostrarAlerta(tipo, mensaje) {
+
   const icono = document.getElementById("alertIcon");
   const texto = document.getElementById("alertMessage");
   const overlay = document.getElementById("alertOverlay");
 
+  if (!overlay || !texto) return;
+
   if (tipo === "success") {
     icono.innerHTML =
-      '<img src="../assets/img/check.png" alt="Éxito" style="width:40px;height:40px;">';
+      '<img src="/assets/img/check.png" style="width:40px;height:40px;">';
   }
 
   texto.innerText = mensaje;
@@ -219,16 +239,23 @@ function mostrarAlerta(tipo, mensaje) {
 }
 
 function closeAlert() {
-  document.getElementById("alertOverlay").style.display =
-    "none";
+
+  const overlay = document.getElementById("alertOverlay");
+
+  if (overlay) overlay.style.display = "none";
+
   showLogin();
 }
 
 /* ──────────────────────────────
-   ERROR INLINE
+   MENSAJE DE ERROR
 ────────────────────────────── */
+
 function mostrarError(mensaje) {
+
   const error = document.getElementById("error-register");
+  if (!error) return;
+
   error.textContent = mensaje;
   error.style.opacity = "1";
 
@@ -240,8 +267,11 @@ function mostrarError(mensaje) {
 /* ──────────────────────────────
    LOGOUT
 ────────────────────────────── */
+
 function logout() {
+
   localStorage.removeItem("token");
   localStorage.removeItem("usuario");
-  window.location.replace("../pages/index.html");
+
+  window.location.replace("/pages/index.html");
 }
