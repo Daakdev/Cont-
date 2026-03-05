@@ -18,7 +18,9 @@
             <p>No tienes cuenta?</p>
             <button onclick="showRegister()">Regístrate</button>
         </div>
+    </div> <!-- ← cierre background-login -->
 
+    <!-- FORMULARIO LOGIN -->
     <div class="login">
         <div class="input-group">
             <input type="text" id="usuario-login" placeholder=" "/>
@@ -33,7 +35,8 @@
         <button onclick="iniciarSesion()">Iniciar Sesión</button>
     </div>
 
-    <div class="register">
+    <!-- FORMULARIO REGISTER -->
+    <div class="register no-transition">
         <div class="input-group">
             <input type="text" id="usuario-register" placeholder=" " />
             <label class="form-label">Usuario</label>
@@ -41,7 +44,7 @@
         <div class="input-group">
             <input type="email" id="correo" placeholder=" "/>
             <label class="form-label">Correo Electrónico</label>
-         </div>
+        </div>
         <div class="input-group">
             <input type="password" id="password-register" placeholder=" "/>
             <label class="form-label">Contraseña</label>
@@ -57,6 +60,7 @@
         <button onclick="registrarse()">Registrarse</button>
     </div>
 
+    <!-- PANEL AZUL REGISTER -->
     <div class="background-register">
         <div class="content">
             <img src="/assets/img/logo.svg" alt="">
@@ -64,7 +68,9 @@
             <p>Ya tienes cuenta?</p>
             <button onclick="showLogin()">Inicia Sesión</button>
         </div>
-</div>
+    </div> <!-- ← cierre background-register -->
+
+</div> <!-- ← cierre container -->
 
 <div class="alert-overlay" id="alertOverlay">
     <div class="alert-box">
@@ -72,6 +78,7 @@
         <p id="alertMessage">Mensaje</p>
         <button onclick="closeAlert()">Cerrar</button>
     </div>
+</div> <!-- ← cierre alert-overlay -->
 
 <script src="/assets/js/script.js"></script>
 </body>
