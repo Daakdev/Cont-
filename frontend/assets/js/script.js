@@ -2,15 +2,13 @@
    CONFIGURACIÓN DE API
 ────────────────────────────── */
 
-// Detectar si estamos en localhost
 const isLocalhost =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1";
 
-// URL de API según entorno
 const API = isLocalhost
   ? "http://localhost:3000/api/auth"
-  : "/api/auth";
+  : "https://cont-backend.onrender.com/api/auth"; // ← URL real de Render
 
 /* ──────────────────────────────
    INICIALIZACIÓN

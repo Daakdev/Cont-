@@ -1,9 +1,4 @@
-# Blueprint de Despliegue para Cont+ en Render
-
 services:
-  # =====================
-  # BACKEND (API)
-  # =====================
   - type: web
     name: cont-backend
     runtime: node
@@ -28,19 +23,17 @@ services:
           type: web
           property: host
 
-  # =====================
-  # FRONTEND
-  # =====================
   - type: web
     name: cont-frontend
     runtime: static
+    plan: free
+    region: oregon
     rootDir: frontend
-    staticPublishPath: pages
+    staticPublishPath: .        # ← corregido
     routes:
       - type: rewrite
         source: /*
-        destination: /pages/index.html
+        destination: /index.html  # ← corregido
     envVars:
       - key: VITE_API_URL
         value: https://cont-backend.onrender.com/api
-
