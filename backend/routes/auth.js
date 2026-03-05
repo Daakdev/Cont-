@@ -7,27 +7,28 @@ const db      = require('../config/db');
 router.post('/register', async (req, res) => {
     const { usuario, correo, password } = req.body;
 
-    db.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario], async (err, results) => {
-        if (err) return res.status(500).json({ error: 'Error en servidor' });
+    try {
+        const [results] = await db.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
         if (results.length > 0) return res.status(400).json({ error: 'El usuario ya existe' });
 
         const hash = await bcrypt.hash(password, 10);
-        db.query(
+        await db.query(
             'INSERT INTO usuarios (usuario, correo, password) VALUES (?, ?, ?)',
-            [usuario, correo, hash],
-            (err) => {
-                if (err) return res.status(500).json({ error: 'Error al registrar' });
-                res.json({ mensaje: 'Registro exitoso' });
-            }
+            [usuario, correo, hash]
         );
-    });
+        res.json({ mensaje: 'Registro exitoso' });
+
+    } catch (err) {
+        console.error('Error en /register:', err);
+        res.status(500).json({ error: 'Error en servidor' });
+    }
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     const { usuario, password } = req.body;
 
-    db.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario], async (err, results) => {
-        if (err) return res.status(500).json({ error: 'Error en servidor' });
+    try {
+        const [results] = await db.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
         if (results.length === 0) return res.status(400).json({ error: 'Usuario no encontrado' });
 
         const user  = results[0];
@@ -40,7 +41,11 @@ router.post('/login', (req, res) => {
             { expiresIn: '1d' }
         );
         res.json({ token, usuario: user.usuario });
-    });
+
+    } catch (err) {
+        console.error('Error en /login:', err);
+        res.status(500).json({ error: 'Error en servidor' });
+    }
 });
 
 module.exports = router;
