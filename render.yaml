@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: free
     region: eu
-    rootDir: eu
+    rootDir: backend
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /health
@@ -17,11 +17,6 @@ services:
         sync: false
       - key: JWT_SECRET
         sync: false
-      - key: FRONTEND_URL
-        fromService:
-          name: cont-frontend
-          type: web
-          property: host
 
   - type: web
     name: cont-frontend
@@ -29,11 +24,11 @@ services:
     plan: free
     region: oregon
     rootDir: frontend
-    staticPublishPath: .        # ← corregido
+    staticPublishPath: .
     routes:
       - type: rewrite
         source: /*
-        destination: /index.html  # ← corregido
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
         value: https://cont-backend.onrender.com/api
