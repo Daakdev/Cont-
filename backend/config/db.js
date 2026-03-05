@@ -24,4 +24,4 @@ function createDbConnection() {
   return mysql.createPool(connectionConfig);
 }
 
-module.exports = createDbConnection();
+module.exports = createDbConnection;
