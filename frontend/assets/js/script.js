@@ -128,7 +128,7 @@ async function iniciarSesion() {
     localStorage.setItem("token", data.token);
     localStorage.setItem("usuario", data.usuario);
 
-    window.location.replace("/pages/users.html");
+window.location.replace("/users.html");
 
   } catch (error) {
     alert("Error de conexión con el servidor");
