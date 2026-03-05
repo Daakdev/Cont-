@@ -273,5 +273,5 @@ function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("usuario");
 
-  window.location.replace("/pages/index.html");
+  window.location.replace("/index.html");
 }
