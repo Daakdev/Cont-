@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cont+</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="../assets/css/stylesUsers.css"/>
+  <link rel="stylesheet" href="/assets/css/stylesUsers.css"/>
 </head>
 <body>
 
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <img class="sidebar-logo" src="../assets/img/logo.svg" alt="">
-    <img src="../assets/img/icon.svg" alt="" class="sidebar-icon">
+    <img class="sidebar-logo" src="/assets/img/logo.svg" alt="">
+    <img src="/assets/img/icon.svg" alt="" class="sidebar-icon">
   </div>
 
   <div class="sidebar-user">
@@ -21,55 +21,54 @@
     <div class="user-info">
       <div class="user-name"><span class="nombreUsuario"></span></div>
       <div class="user-role">Administrador</div>
-    </div>
   </div>
 
   <nav class="sidebar-nav">
     <div class="nav-section-title">Principal</div>
     <div class="nav-item active" onclick="showModule('inicio', this)">
-      <img src="../assets/img/home.png" alt="">
+      <img src="/assets/img/home.png" alt="">
       <span class="nav-label">Inicio</span>
     </div>
 
     <div class="nav-section-title">Gestión</div>
     <div class="nav-item" onclick="showModule('ventas', this)">
-      <img src="../assets/img/sales.png" alt="">
+      <img src="/assets/img/sales.png" alt="">
       <span class="nav-label">Ventas</span>
     </div>
     <div class="nav-item" onclick="showModule('inventario', this)">
-      <img src="../assets/img/barcode.png" alt="">
+      <img src="/assets/img/barcode.png" alt="">
       <span class="nav-label">Inventario</span>
     </div>
     <div class="nav-item" onclick="showModule('clientes', this)">
-      <img src="../assets/img/clients.png" alt="">
+      <img src="/assets/img/clients.png" alt="">
       <span class="nav-label">Clientes</span>
     </div>
     <div class="nav-item" onclick="showModule('proveedores', this)">
-      <img src="../assets/img/clients.png" alt="">
+      <img src="/assets/img/clients.png" alt="">
       <span class="nav-label">Proveedores</span>
     </div>
     <div class="nav-item" onclick="showModule('nomina', this)">
-      <img src="../assets/img/nomina.png" alt="">
+      <img src="/assets/img/nomina.png" alt="">
       <span class="nav-label">Nómina</span>
     </div>
 
     <div class="nav-section-title">Finanzas</div>
     <div class="nav-item" onclick="showModule('compras', this)">
-      <img src="../assets/img/shopping.png" alt="">
+      <img src="/assets/img/shopping.png" alt="">
       <span class="nav-label">Compras</span>
     </div>
     <div class="nav-item" onclick="showModule('empleados', this)">
-      <img src="../assets/img/clients.png" alt="">
+      <img src="/assets/img/clients.png" alt="">
       <span class="nav-label">Empleados</span>
     </div>
     <div class="nav-item" onclick="showModule('gastos', this)">
-      <img src="../assets/img/price.png" alt="">
+      <img src="/assets/img/price.png" alt="">
       <span class="nav-label">Gastos</span>
     </div>
 
     <div class="nav-section-title">Sistema</div>
     <div class="nav-item" onclick="showModule('configuracion', this)">
-      <img src="../assets/img/configure.png" alt="">
+      <img src="/assets/img/configure.png" alt="">
       <span class="nav-label">Configuración</span>
     </div>
   </nav>
@@ -89,9 +88,8 @@
       <button class="topbar-btn"><div class="btn-icon"></div><span class="notif-dot"></span></button>
       <button class="topbar-btn"><div class="btn-icon"></div></button>
       <div class="topbar-user">
-        <button onclick="logout()"><img src="../assets/img/logout.png" alt=""></button>
+        <button onclick="logout()"><img src="/assets/img/logout.png" alt=""></button>
       </div>
-    </div>
   </div>
 
   <!-- ═══════════════ INICIO ═══════════════ -->
@@ -104,73 +102,63 @@
 
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-icon c-blue"><img src="../assets/img/sales.png" alt=""></div>
+          <div class="stat-icon c-blue"><img src="/assets/img/sales.png" alt=""></div>
           <div class="stat-info">
             <div class="stat-label">Ventas</div>
             <div class="stat-value" id="dash-ventas">—</div>
             <div class="stat-change" id="dash-ventas-change">Sin datos</div>
-          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon c-orange"><img src="../assets/img/barcode.png" alt=""></div>
+          <div class="stat-icon c-orange"><img src="/assets/img/barcode.png" alt=""></div>
           <div class="stat-info">
             <div class="stat-label">Inventario</div>
             <div class="stat-value" id="dash-inventario">—</div>
             <div class="stat-change" id="dash-inventario-change">Sin datos</div>
-          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon c-teal"><img src="../assets/img/clients.png" alt=""></div>
+          <div class="stat-icon c-teal"><img src="/assets/img/clients.png" alt=""></div>
           <div class="stat-info">
             <div class="stat-label">Clientes</div>
             <div class="stat-value" id="dash-clientes">—</div>
             <div class="stat-change" id="dash-clientes-change">Sin datos</div>
-          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon c-red"><img src="../assets/img/clients.png" alt=""></div>
+          <div class="stat-icon c-red"><img src="/assets/img/clients.png" alt=""></div>
           <div class="stat-info">
             <div class="stat-label">Proveedores</div>
             <div class="stat-value" id="dash-proveedores">—</div>
             <div class="stat-change" id="dash-proveedores-change">Sin datos</div>
-          </div>
         </div>
-      </div>
 
       <div class="stats-grid" style="margin-bottom:24px;">
         <div class="stat-card">
-          <div class="stat-icon c-green"><img src="../assets/img/clients.png" alt=""></div>
+          <div class="stat-icon c-green"><img src="/assets/img/clients.png" alt=""></div>
           <div class="stat-info">
             <div class="stat-label">Vendedores</div>
             <div class="stat-value" id="dash-vendedores">—</div>
             <div class="stat-change" id="dash-vendedores-change">Sin datos</div>
-          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon c-orange"><img src="../assets/img/clients.png" alt=""></div>
+          <div class="stat-icon c-orange"><img src="/assets/img/clients.png" alt=""></div>
           <div class="stat-info">
             <div class="stat-label">Empleados</div>
             <div class="stat-value" id="dash-empleados">—</div>
             <div class="stat-change" id="dash-empleados-change">Sin datos</div>
-          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon c-purple"><img src="../assets/img/shopping.png" alt=""></div>
+          <div class="stat-icon c-purple"><img src="/assets/img/shopping.png" alt=""></div>
           <div class="stat-info">
             <div class="stat-label">Compras</div>
             <div class="stat-value" id="dash-compras">—</div>
             <div class="stat-change" id="dash-compras-change">Sin datos</div>
-          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon c-yellow"><img src="../assets/img/price.png" alt=""></div>
+          <div class="stat-icon c-yellow"><img src="/assets/img/price.png" alt=""></div>
           <div class="stat-info">
             <div class="stat-label">Gastos</div>
             <div class="stat-value" id="dash-gastos">—</div>
             <div class="stat-change" id="dash-gastos-change">Sin datos</div>
-          </div>
         </div>
-      </div>
 
       <div class="bottom-grid">
         <div class="panel">
@@ -186,14 +174,12 @@
                 <div class="skel" style="height:12px;width:100px;"></div>
                 <div class="skel" style="height:12px;width:60px;margin-left:auto;"></div>
                 <div class="skel" style="height:12px;width:60px;"></div>
-              </div>
-              <div class="skel-row"><div class="skel" style="height:14px;width:30px;"></div><div class="skel" style="height:14px;width:90px;"></div><div class="skel" style="height:14px;width:110px;"></div><div class="skel" style="height:14px;width:50px;margin-left:auto;"></div><div class="skel badge-skel"></div></div>
-              <div class="skel-row"><div class="skel" style="height:14px;width:30px;"></div><div class="skel" style="height:14px;width:70px;"></div><div class="skel" style="height:14px;width:130px;"></div><div class="skel" style="height:14px;width:40px;margin-left:auto;"></div><div class="skel badge-skel"></div></div>
-              <div class="skel-row"><div class="skel" style="height:14px;width:30px;"></div><div class="skel" style="height:14px;width:100px;"></div><div class="skel" style="height:14px;width:90px;"></div><div class="skel" style="height:14px;width:55px;margin-left:auto;"></div><div class="skel badge-skel"></div></div>
-              <div class="skel-row"><div class="skel" style="height:14px;width:30px;"></div><div class="skel" style="height:14px;width:85px;"></div><div class="skel" style="height:14px;width:120px;"></div><div class="skel" style="height:14px;width:45px;margin-left:auto;"></div><div class="skel badge-skel"></div></div>
-              <div class="skel-row"><div class="skel" style="height:14px;width:30px;"></div><div class="skel" style="height:14px;width:75px;"></div><div class="skel" style="height:14px;width:105px;"></div><div class="skel" style="height:14px;width:50px;margin-left:auto;"></div><div class="skel badge-skel"></div></div>
+              <div class="skel-row"><div class="skel" style="height:14px;width:30px;"></div><div class="skel" style="height:14px;width:90px;"></div><div class="skel" style="height:14px;width:110px;"></div><div class="skel" style="height:14px;width:50px;margin-left:auto;"></div><div class="skel badge-skel"></div>
+              <div class="skel-row"><div class="skel" style="height:14px;width:30px;"></div><div class="skel" style="height:14px;width:70px;"></div><div class="skel" style="height:14px;width:130px;"></div><div class="skel" style="height:14px;width:40px;margin-left:auto;"></div><div class="skel badge-skel"></div>
+              <div class="skel-row"><div class="skel" style="height:14px;width:30px;"></div><div class="skel" style="height:14px;width:100px;"></div><div class="skel" style="height:14px;width:90px;"></div><div class="skel" style="height:14px;width:55px;margin-left:auto;"></div><div class="skel badge-skel"></div>
+              <div class="skel-row"><div class="skel" style="height:14px;width:30px;"></div><div class="skel" style="height:14px;width:85px;"></div><div class="skel" style="height:14px;width:120px;"></div><div class="skel" style="height:14px;width:45px;margin-left:auto;"></div><div class="skel badge-skel"></div>
+              <div class="skel-row"><div class="skel" style="height:14px;width:30px;"></div><div class="skel" style="height:14px;width:75px;"></div><div class="skel" style="height:14px;width:105px;"></div><div class="skel" style="height:14px;width:50px;margin-left:auto;"></div><div class="skel badge-skel"></div>
             </div>
-          </div>
         </div>
 
         <div class="panel">
@@ -208,32 +194,28 @@
               <div class="bar-wrap"><div class="bar" style="height:0%"></div><span class="bar-label">Abr</span></div>
               <div class="bar-wrap"><div class="bar" style="height:0%"></div><span class="bar-label">May</span></div>
               <div class="bar-wrap"><div class="bar active" style="height:0%"></div><span class="bar-label">Jun</span></div>
-            </div>
           </div>
           <div class="mini-section-title">Top Productos</div>
           <div id="dash-top-productos">
-            <div class="mini-item"><div class="mini-dot" style="background:#009dff"></div><div><div class="mini-name">—</div><div class="mini-sub">Sin datos</div></div><div class="mini-val">—</div></div>
-            <div class="mini-item"><div class="mini-dot" style="background:#f97316"></div><div><div class="mini-name">—</div><div class="mini-sub">Sin datos</div></div><div class="mini-val">—</div></div>
-            <div class="mini-item"><div class="mini-dot" style="background:#22c55e"></div><div><div class="mini-name">—</div><div class="mini-sub">Sin datos</div></div><div class="mini-val">—</div></div>
+            <div class="mini-item"><div class="mini-dot" style="background:#009dff"></div><div><div class="mini-name">—</div><div class="mini-sub">Sin datos</div><div class="mini-val">—</div>
+            <div class="mini-item"><div class="mini-dot" style="background:#f97316"></div><div><div class="mini-name">—</div><div class="mini-sub">Sin datos</div><div class="mini-val">—</div>
+            <div class="mini-item"><div class="mini-dot" style="background:#22c55e"></div><div><div class="mini-name">—</div><div class="mini-sub">Sin datos</div><div class="mini-val">—</div>
           </div>
-        </div>
       </div>
-    </div>
   </div>
 
   <!-- ═══════════════ VENTAS ═══════════════ -->
   <div class="module" id="mod-ventas">
     <div class="page-header">
-      <div><div class="page-title">💰 Ventas</div><div class="page-subtitle">Gestión de ventas y facturación</div></div>
+      <div><div class="page-title">💰 Ventas</div><div class="page-subtitle">Gestión de ventas y facturación</div>
       <button class="btn btn-primary">+ Nueva Venta</button>
     </div>
     <div class="content">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Ventas Hoy</div><div class="stat-value" id="v-hoy">—</div><div class="stat-change" id="v-hoy-change">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Este Mes</div><div class="stat-value" id="v-mes">—</div><div class="stat-change" id="v-mes-change">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Facturas Pendientes</div><div class="stat-value" id="v-pendientes">—</div><div class="stat-change" id="v-pendientes-sub">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-purple"></div><div class="stat-info"><div class="stat-label">Ticket Promedio</div><div class="stat-value" id="v-ticket">—</div><div class="stat-change" id="v-ticket-change">Sin datos</div></div></div>
-      </div>
+        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Ventas Hoy</div><div class="stat-value" id="v-hoy">—</div><div class="stat-change" id="v-hoy-change">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Este Mes</div><div class="stat-value" id="v-mes">—</div><div class="stat-change" id="v-mes-change">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Facturas Pendientes</div><div class="stat-value" id="v-pendientes">—</div><div class="stat-change" id="v-pendientes-sub">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-purple"></div><div class="stat-info"><div class="stat-label">Ticket Promedio</div><div class="stat-value" id="v-ticket">—</div><div class="stat-change" id="v-ticket-change">Sin datos</div></div>
       <div class="filter-bar">
         <div class="search-wrap"><input class="search-input" type="text" id="v-search" placeholder="Buscar venta, cliente, producto..."></div>
         <select id="v-estado">
@@ -257,25 +239,22 @@
           </tbody>
         </table>
       </div>
-    </div>
   </div>
 
   <!-- ═══════════════ INVENTARIO ═══════════════ -->
   <div class="module" id="mod-inventario">
     <div class="page-header">
-      <div><div class="page-title">📦 Inventario</div><div class="page-subtitle">Control de stock y productos</div></div>
+      <div><div class="page-title">📦 Inventario</div><div class="page-subtitle">Control de stock y productos</div>
       <div style="display:flex;gap:10px;">
         <button class="btn btn-secondary">📥 Importar</button>
         <button class="btn btn-primary">+ Agregar Producto</button>
       </div>
-    </div>
     <div class="content">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Total Productos</div><div class="stat-value" id="inv-total">—</div><div class="stat-change" id="inv-total-sub">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Valor en Stock</div><div class="stat-value" id="inv-valor">—</div><div class="stat-change" id="inv-valor-change">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-red"></div><div class="stat-info"><div class="stat-label">Stock Bajo ⚠️</div><div class="stat-value" id="inv-bajo">—</div><div class="stat-change" id="inv-bajo-sub">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Sin Stock 🚫</div><div class="stat-value" id="inv-sin">—</div><div class="stat-change" id="inv-sin-sub">Sin datos</div></div></div>
-      </div>
+        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Total Productos</div><div class="stat-value" id="inv-total">—</div><div class="stat-change" id="inv-total-sub">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Valor en Stock</div><div class="stat-value" id="inv-valor">—</div><div class="stat-change" id="inv-valor-change">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-red"></div><div class="stat-info"><div class="stat-label">Stock Bajo ⚠️</div><div class="stat-value" id="inv-bajo">—</div><div class="stat-change" id="inv-bajo-sub">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Sin Stock 🚫</div><div class="stat-value" id="inv-sin">—</div><div class="stat-change" id="inv-sin-sub">Sin datos</div></div>
       <div class="filter-bar">
         <div class="search-wrap"><input class="search-input" type="text" id="inv-search" placeholder="Buscar producto, código, categoría..."></div>
         <select id="inv-categoria"><option value="">Todas las categorías</option></select>
@@ -295,21 +274,19 @@
           </tbody>
         </table>
       </div>
-    </div>
   </div>
 
   <!-- ═══════════════ CLIENTES ═══════════════ -->
   <div class="module" id="mod-clientes">
     <div class="page-header">
-      <div><div class="page-title">👥 Clientes</div><div class="page-subtitle">Base de datos de clientes</div></div>
+      <div><div class="page-title">👥 Clientes</div><div class="page-subtitle">Base de datos de clientes</div>
       <button class="btn btn-primary">+ Nuevo Cliente</button>
     </div>
     <div class="content">
       <div class="three-col">
-        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Total Clientes</div><div class="stat-value" id="cli-total">—</div><div class="stat-change" id="cli-total-change">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Clientes Frecuentes</div><div class="stat-value" id="cli-frecuentes">—</div><div class="stat-change" id="cli-frecuentes-sub">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Deuda Total</div><div class="stat-value" id="cli-deuda">—</div><div class="stat-change" id="cli-deuda-sub">Sin datos</div></div></div>
-      </div>
+        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Total Clientes</div><div class="stat-value" id="cli-total">—</div><div class="stat-change" id="cli-total-change">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Clientes Frecuentes</div><div class="stat-value" id="cli-frecuentes">—</div><div class="stat-change" id="cli-frecuentes-sub">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Deuda Total</div><div class="stat-value" id="cli-deuda">—</div><div class="stat-change" id="cli-deuda-sub">Sin datos</div></div>
       <div class="filter-bar">
         <div class="search-wrap"><input class="search-input" type="text" id="cli-search" placeholder="Buscar cliente, RUC, email..."></div>
         <select id="cli-tipo">
@@ -327,21 +304,19 @@
           </tbody>
         </table>
       </div>
-    </div>
   </div>
 
   <!-- ═══════════════ PROVEEDORES ═══════════════ -->
   <div class="module" id="mod-proveedores">
     <div class="page-header">
-      <div><div class="page-title">🏭 Proveedores</div><div class="page-subtitle">Gestión de proveedores y suministros</div></div>
+      <div><div class="page-title">🏭 Proveedores</div><div class="page-subtitle">Gestión de proveedores y suministros</div>
       <button class="btn btn-primary">+ Nuevo Proveedor</button>
     </div>
     <div class="content">
       <div class="three-col">
-        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Total Proveedores</div><div class="stat-value" id="prov-total">—</div><div class="stat-change" id="prov-total-sub">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Compras del Mes</div><div class="stat-value" id="prov-compras">—</div><div class="stat-change" id="prov-compras-change">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-red"></div><div class="stat-info"><div class="stat-label">Cuentas por Pagar</div><div class="stat-value" id="prov-pagar">—</div><div class="stat-change" id="prov-pagar-sub">Sin datos</div></div></div>
-      </div>
+        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Total Proveedores</div><div class="stat-value" id="prov-total">—</div><div class="stat-change" id="prov-total-sub">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Compras del Mes</div><div class="stat-value" id="prov-compras">—</div><div class="stat-change" id="prov-compras-change">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-red"></div><div class="stat-info"><div class="stat-label">Cuentas por Pagar</div><div class="stat-value" id="prov-pagar">—</div><div class="stat-change" id="prov-pagar-sub">Sin datos</div></div>
       <div class="filter-bar">
         <div class="search-wrap"><input class="search-input" type="text" id="prov-search" placeholder="Buscar proveedor..."></div>
         <select id="prov-categoria"><option value="">Todas las categorías</option></select>
@@ -355,25 +330,22 @@
           </tbody>
         </table>
       </div>
-    </div>
   </div>
 
   <!-- ═══════════════ NÓMINA ═══════════════ -->
   <div class="module" id="mod-nomina">
     <div class="page-header">
-      <div><div class="page-title">📋 Nómina</div><div class="page-subtitle">Gestión de pagos y roles de empleados</div></div>
+      <div><div class="page-title">📋 Nómina</div><div class="page-subtitle">Gestión de pagos y roles de empleados</div>
       <div style="display:flex;gap:10px;">
         <button class="btn btn-secondary">📤 Generar Roles</button>
         <button class="btn btn-primary">💳 Procesar Pago</button>
       </div>
-    </div>
     <div class="content">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Total Empleados</div><div class="stat-value" id="nom-empleados">—</div><div class="stat-change" id="nom-empleados-sub">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Nómina Mensual</div><div class="stat-value" id="nom-total">—</div><div class="stat-change" id="nom-fecha">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-purple"></div><div class="stat-info"><div class="stat-label">Pagado Este Mes</div><div class="stat-value" id="nom-pagado">—</div><div class="stat-change" id="nom-pagado-sub">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-teal"></div><div class="stat-info"><div class="stat-label">Beneficios</div><div class="stat-value" id="nom-beneficios">—</div><div class="stat-change" id="nom-beneficios-sub">Sin datos</div></div></div>
-      </div>
+        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Total Empleados</div><div class="stat-value" id="nom-empleados">—</div><div class="stat-change" id="nom-empleados-sub">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Nómina Mensual</div><div class="stat-value" id="nom-total">—</div><div class="stat-change" id="nom-fecha">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-purple"></div><div class="stat-info"><div class="stat-label">Pagado Este Mes</div><div class="stat-value" id="nom-pagado">—</div><div class="stat-change" id="nom-pagado-sub">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-teal"></div><div class="stat-info"><div class="stat-label">Beneficios</div><div class="stat-value" id="nom-beneficios">—</div><div class="stat-change" id="nom-beneficios-sub">Sin datos</div></div>
       <div class="table-card">
         <div class="table-header">
           <span class="table-title">Rol de Pagos</span>
@@ -386,22 +358,20 @@
           </tbody>
         </table>
       </div>
-    </div>
   </div>
 
   <!-- ═══════════════ COMPRAS ═══════════════ -->
   <div class="module" id="mod-compras">
     <div class="page-header">
-      <div><div class="page-title">🛒 Compras</div><div class="page-subtitle">Órdenes de compra y abastecimiento</div></div>
+      <div><div class="page-title">🛒 Compras</div><div class="page-subtitle">Órdenes de compra y abastecimiento</div>
       <button class="btn btn-primary">+ Nueva Orden de Compra</button>
     </div>
     <div class="content">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Órdenes del Mes</div><div class="stat-value" id="comp-ordenes">—</div><div class="stat-change" id="comp-ordenes-sub">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Monto Comprado</div><div class="stat-value" id="comp-monto">—</div><div class="stat-change" id="comp-monto-change">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-purple"></div><div class="stat-info"><div class="stat-label">Por Recibir</div><div class="stat-value" id="comp-recibir">—</div><div class="stat-change" id="comp-recibir-sub">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-red"></div><div class="stat-info"><div class="stat-label">Por Pagar</div><div class="stat-value" id="comp-pagar">—</div><div class="stat-change" id="comp-pagar-sub">Sin datos</div></div></div>
-      </div>
+        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Órdenes del Mes</div><div class="stat-value" id="comp-ordenes">—</div><div class="stat-change" id="comp-ordenes-sub">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Monto Comprado</div><div class="stat-value" id="comp-monto">—</div><div class="stat-change" id="comp-monto-change">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-purple"></div><div class="stat-info"><div class="stat-label">Por Recibir</div><div class="stat-value" id="comp-recibir">—</div><div class="stat-change" id="comp-recibir-sub">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-red"></div><div class="stat-info"><div class="stat-label">Por Pagar</div><div class="stat-value" id="comp-pagar">—</div><div class="stat-change" id="comp-pagar-sub">Sin datos</div></div>
       <div class="filter-bar">
         <div class="search-wrap"><input class="search-input" type="text" id="comp-search" placeholder="Buscar orden, proveedor..."></div>
         <select id="comp-estado">
@@ -420,21 +390,19 @@
           </tbody>
         </table>
       </div>
-    </div>
   </div>
 
   <!-- ═══════════════ EMPLEADOS ═══════════════ -->
   <div class="module" id="mod-empleados">
     <div class="page-header">
-      <div><div class="page-title">👤 Empleados</div><div class="page-subtitle">Gestión del personal de la empresa</div></div>
+      <div><div class="page-title">👤 Empleados</div><div class="page-subtitle">Gestión del personal de la empresa</div>
       <button class="btn btn-primary">+ Nuevo Empleado</button>
     </div>
     <div class="content">
       <div class="three-col">
-        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Total Empleados</div><div class="stat-value" id="emp-total">—</div><div class="stat-change" id="emp-total-sub">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-purple"></div><div class="stat-info"><div class="stat-label">Departamentos</div><div class="stat-value" id="emp-deptos">—</div><div class="stat-change" id="emp-deptos-sub">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-teal"></div><div class="stat-info"><div class="stat-label">En Vacaciones</div><div class="stat-value" id="emp-vacaciones">—</div><div class="stat-change" id="emp-vacaciones-sub">Sin datos</div></div></div>
-      </div>
+        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Total Empleados</div><div class="stat-value" id="emp-total">—</div><div class="stat-change" id="emp-total-sub">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-purple"></div><div class="stat-info"><div class="stat-label">Departamentos</div><div class="stat-value" id="emp-deptos">—</div><div class="stat-change" id="emp-deptos-sub">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-teal"></div><div class="stat-info"><div class="stat-label">En Vacaciones</div><div class="stat-value" id="emp-vacaciones">—</div><div class="stat-change" id="emp-vacaciones-sub">Sin datos</div></div>
       <div class="filter-bar">
         <div class="search-wrap"><input class="search-input" type="text" id="emp-search" placeholder="Buscar empleado, cargo, departamento..."></div>
         <select id="emp-depto"><option value="">Todos los departamentos</option></select>
@@ -448,27 +416,24 @@
           </tbody>
         </table>
       </div>
-    </div>
   </div>
 
   <!-- ═══════════════ GASTOS ═══════════════ -->
   <div class="module" id="mod-gastos">
     <div class="page-header">
-      <div><div class="page-title">💸 Gastos</div><div class="page-subtitle">Control de gastos operativos</div></div>
+      <div><div class="page-title">💸 Gastos</div><div class="page-subtitle">Control de gastos operativos</div>
       <button class="btn btn-primary">+ Registrar Gasto</button>
     </div>
     <div class="content">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-icon c-red"></div><div class="stat-info"><div class="stat-label">Gastos del Mes</div><div class="stat-value" id="gas-mes">—</div><div class="stat-change" id="gas-mes-change">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Mayor Gasto</div><div class="stat-value" id="gas-mayor">—</div><div class="stat-change" id="gas-mayor-sub">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Gastos Hoy</div><div class="stat-value" id="gas-hoy">—</div><div class="stat-change" id="gas-hoy-sub">Sin datos</div></div></div>
-        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Presupuesto Rest.</div><div class="stat-value" id="gas-presupuesto">—</div><div class="stat-change" id="gas-presupuesto-sub">Sin datos</div></div></div>
-      </div>
+        <div class="stat-card"><div class="stat-icon c-red"></div><div class="stat-info"><div class="stat-label">Gastos del Mes</div><div class="stat-value" id="gas-mes">—</div><div class="stat-change" id="gas-mes-change">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Mayor Gasto</div><div class="stat-value" id="gas-mayor">—</div><div class="stat-change" id="gas-mayor-sub">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Gastos Hoy</div><div class="stat-value" id="gas-hoy">—</div><div class="stat-change" id="gas-hoy-sub">Sin datos</div></div>
+        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Presupuesto Rest.</div><div class="stat-value" id="gas-presupuesto">—</div><div class="stat-change" id="gas-presupuesto-sub">Sin datos</div></div>
       <div class="two-col">
         <div class="table-card">
           <div class="table-header"><span class="table-title">Gastos por Categoría</span></div>
           <div id="gas-categorias" style="padding:16px 22px;"></div>
-        </div>
         <div class="table-card">
           <div class="table-header"><span class="table-title">Últimos Gastos</span></div>
           <table>
@@ -478,14 +443,12 @@
             </tbody>
           </table>
         </div>
-      </div>
     </div>
-  </div>
 
   <!-- ═══════════════ CONFIGURACIÓN ═══════════════ -->
   <div class="module" id="mod-configuracion">
     <div class="page-header">
-      <div><div class="page-title">⚙️ Configuración</div><div class="page-subtitle">Ajustes del sistema</div></div>
+      <div><div class="page-title">⚙️ Configuración</div><div class="page-subtitle">Ajustes del sistema</div>
       <button class="btn btn-primary" onclick="guardarConfiguracion()">💾 Guardar Cambios</button>
     </div>
     <div class="content">
@@ -499,7 +462,6 @@
             <div class="form-group full"><label>Dirección</label><input type="text" id="cfg-direccion" placeholder="Dirección completa"/></div>
             <div class="form-group"><label>Email</label><input type="email" id="cfg-email" placeholder="info@empresa.com"/></div>
             <div class="form-group"><label>Sitio Web</label><input type="url" id="cfg-web" placeholder="www.empresa.com"/></div>
-          </div>
         </div>
         <div class="form-card">
           <div class="form-section-title">💰 Configuración Financiera</div>
@@ -520,9 +482,7 @@
                 <option value="manual">Manual</option>
               </select>
             </div>
-          </div>
         </div>
-      </div>
       <div class="two-col">
         <div class="form-card">
           <div class="form-section-title">👤 Gestión de Usuarios</div>
@@ -539,27 +499,21 @@
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <span>Stock bajo</span>
               <div class="toggle-switch on" id="notif-stock" onclick="toggleNotif(this)"></div>
-            </div>
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <span>Facturas por vencer</span>
               <div class="toggle-switch on" id="notif-facturas" onclick="toggleNotif(this)"></div>
-            </div>
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <span>Recordatorio de nómina</span>
               <div class="toggle-switch on" id="notif-nomina" onclick="toggleNotif(this)"></div>
-            </div>
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <span>Reportes automáticos</span>
               <div class="toggle-switch off" id="notif-reportes" onclick="toggleNotif(this)"></div>
-            </div>
           </div>
-        </div>
       </div>
-    </div>
   </div>
 
 </main>
 
-<script src="../assets/js/scriptUsers.js"></script>
+<script src="/assets/js/scriptUsers.js"></script>
 </body>
 </html>
