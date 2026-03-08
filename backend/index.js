@@ -1,6 +1,8 @@
-const express   = require("express");
-const cors      = require("cors");
-const sequelize = require("./config/db");
+require("dotenv").config(); // ← DEBE ser la primera línea
+
+const express    = require("express");
+const cors       = require("cors");
+const sequelize  = require("./config/db");
 const authRoutes = require("./routes/auth");
 
 const app = express();
@@ -19,15 +21,14 @@ app.use(cors({
 app.options("*", cors());
 app.use(express.json());
 
-app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
-app.get("/", (req, res) => res.send("API funcionando 🚀"));
-app.get("/api/test", (req, res) => res.json({ message: "Backend funcionando correctamente" }));
+app.get("/health",    (req, res) => res.status(200).json({ status: "ok" }));
+app.get("/",          (req, res) => res.send("API funcionando 🚀"));
+app.get("/api/test",  (req, res) => res.json({ message: "Backend funcionando correctamente" }));
 
 app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT || 3000;
 
-// Sincronizar BD y arrancar servidor
 sequelize.sync({ alter: true })
   .then(() => {
     console.log("✅ Base de datos sincronizada");
