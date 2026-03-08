@@ -399,3 +399,239 @@
     from { transform: scale(0.85); opacity: 0; }
     to   { transform: scale(1); opacity: 1; }
 }
+
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE
+   Breakpoints:
+     • Tablet  : ≤ 900px  → panel se vuelve barra top
+     • Mobile  : ≤ 600px  → layout vertical completo
+══════════════════════════════════════════════════════ */
+
+/* ── TABLET (≤ 900px) ── */
+@media (max-width: 900px) {
+
+    /* El container pasa a columna: panel arriba, form abajo */
+    .container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+    }
+
+    /* ── Paneles: banda horizontal en la parte superior ── */
+    .background-login,
+    .background-register {
+        position: relative;        /* salen del absolute */
+        width: 100%;
+        height: auto;
+        min-height: 220px;
+        border-radius: 0 0 50px 50px !important;
+        padding: 40px 30px 35px;
+        left: auto !important;
+        right: auto !important;
+        opacity: 1 !important;
+    }
+
+    /* El logo queda centrado dentro del panel */
+    .background-login .content img,
+    .background-register .content img {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 110px;
+        margin-bottom: 14px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .background-login .content p,
+    .background-register .content p {
+        font-size: 15px;
+    }
+
+    /* ── Formularios: debajo del panel, centrados ── */
+    .login,
+    .register {
+        position: relative;
+        width: 100%;
+        left: auto !important;
+        height: auto;
+        padding: 40px 30px 50px;
+    }
+
+    .login {
+        opacity: 1 !important;
+        pointer-events: all !important;
+    }
+
+    .register {
+        opacity: 0;
+        pointer-events: none;
+        /* ocupa espacio 0 cuando está oculto */
+        max-height: 0;
+        overflow: hidden;
+        padding: 0;
+        transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    /* Inputs más anchos en tablet */
+    .login .input-group,
+    .register .input-group,
+    .login button,
+    .register button,
+    .forgot,
+    .strength-meter {
+        width: 80%;
+    }
+
+    /* ── ESTADOS ANIMADOS (tablet) ── */
+
+    /* Mostrar register en tablet */
+    .container.show-register .background-login {
+        display: none;      /* oculta panel login */
+        transition: none;
+    }
+    .container.show-register .background-register {
+        display: flex;      /* muestra panel register */
+        width: 100%;
+        right: auto;
+        border-radius: 0 0 50px 50px !important;
+        transition: none;
+    }
+    .container.show-register .login {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        max-height: 0;
+        overflow: hidden;
+        padding: 0;
+        transition: none;
+    }
+    .container.show-register .register {
+        opacity: 1 !important;
+        pointer-events: all !important;
+        max-height: 800px;
+        overflow: visible;
+        padding: 40px 30px 50px;
+        transition: none;
+    }
+
+    /* Volver a login en tablet */
+    .container.was-register .background-login {
+        display: flex;
+        width: 100%;
+        left: auto;
+        border-radius: 0 0 50px 50px !important;
+        opacity: 1 !important;
+        transition: none;
+    }
+    .container.was-register .background-register {
+        display: none;
+        transition: none;
+    }
+    .container.was-register .login {
+        opacity: 1 !important;
+        pointer-events: all !important;
+        max-height: 800px;
+        overflow: visible;
+        padding: 40px 30px 50px;
+        transition: none;
+    }
+    .container.was-register .register {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        max-height: 0;
+        overflow: hidden;
+        padding: 0;
+        transition: none;
+    }
+}
+
+/* ── MOBILE (≤ 600px) ── */
+@media (max-width: 600px) {
+
+    .background-login,
+    .background-register {
+        min-height: 200px;
+        border-radius: 0 0 35px 35px !important;
+        padding: 30px 20px 28px;
+    }
+
+    .background-login .content h1,
+    .background-register .content h1 {
+        font-size: 1.5rem;
+    }
+
+    .background-login .content p,
+    .background-register .content p {
+        font-size: 14px;
+        margin-bottom: 14px;
+    }
+
+    .background-login .content img,
+    .background-register .content img {
+        width: 90px;
+    }
+
+    .background-login .content button,
+    .background-register .content button {
+        font-size: 14px;
+        padding: 9px 18px;
+    }
+
+    .login,
+    .register {
+        padding: 30px 16px 44px;
+    }
+
+    /* Inputs full-width en móvil */
+    .login .input-group,
+    .register .input-group,
+    .login button,
+    .register button,
+    .forgot,
+    .strength-meter {
+        width: 100%;
+    }
+
+    .login .input-group input,
+    .register .input-group input {
+        font-size: 15px;
+        padding: 11px 42px 11px 18px;
+    }
+
+    .forgot {
+        font-size: 13px;
+    }
+
+    .login button,
+    .register button {
+        font-size: 15px;
+        padding: 12px;
+    }
+
+    /* Alert box más compacto */
+    .alert-box {
+        width: 88%;
+        padding: 20px 20px;
+    }
+
+    .alert-box p {
+        font-size: 14px;
+    }
+}
+
+/* ── MOBILE PEQUEÑO (≤ 380px) ── */
+@media (max-width: 380px) {
+
+    .background-login .content h1,
+    .background-register .content h1 {
+        font-size: 1.25rem;
+    }
+
+    .login .input-group input,
+    .register .input-group input {
+        font-size: 14px;
+    }
+}
