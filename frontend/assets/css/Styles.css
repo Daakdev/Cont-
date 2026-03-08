@@ -433,6 +433,11 @@
         opacity: 1 !important;
     }
 
+    /* Panel register oculto por defecto en tablet/mobile */
+    .background-register {
+        display: none;
+    }
+
     /* El logo queda centrado dentro del panel */
     .background-login .content img,
     .background-register .content img {
@@ -467,13 +472,9 @@
     }
 
     .register {
+        display: none;
         opacity: 0;
         pointer-events: none;
-        /* ocupa espacio 0 cuando está oculto */
-        max-height: 0;
-        overflow: hidden;
-        padding: 0;
-        transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
     }
 
     /* Inputs más anchos en tablet */
@@ -490,31 +491,22 @@
 
     /* Mostrar register en tablet */
     .container.show-register .background-login {
-        display: none;      /* oculta panel login */
-        transition: none;
+        display: none;
     }
     .container.show-register .background-register {
-        display: flex;      /* muestra panel register */
+        display: flex;
         width: 100%;
         right: auto;
         border-radius: 0 0 50px 50px !important;
-        transition: none;
     }
     .container.show-register .login {
-        opacity: 0 !important;
-        pointer-events: none !important;
-        max-height: 0;
-        overflow: hidden;
-        padding: 0;
-        transition: none;
+        display: none !important;
     }
     .container.show-register .register {
+        display: flex !important;
         opacity: 1 !important;
         pointer-events: all !important;
-        max-height: 800px;
-        overflow: visible;
         padding: 40px 30px 50px;
-        transition: none;
     }
 
     /* Volver a login en tablet */
@@ -524,27 +516,18 @@
         left: auto;
         border-radius: 0 0 50px 50px !important;
         opacity: 1 !important;
-        transition: none;
     }
     .container.was-register .background-register {
         display: none;
-        transition: none;
     }
     .container.was-register .login {
+        display: flex !important;
         opacity: 1 !important;
         pointer-events: all !important;
-        max-height: 800px;
-        overflow: visible;
         padding: 40px 30px 50px;
-        transition: none;
     }
     .container.was-register .register {
-        opacity: 0 !important;
-        pointer-events: none !important;
-        max-height: 0;
-        overflow: hidden;
-        padding: 0;
-        transition: none;
+        display: none !important;
     }
 }
 
