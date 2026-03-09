@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════
    CONFIGURACIÓN
 ══════════════════════════════════════════ */
-const API_URL = "http://localhost:3000"; // ← cambia por tu URL de producción
+const API_URL = "https://cont-backend.onrender.com";
 
 /* ══════════════════════════════════════════
    TOGGLE UI: LOGIN ↔ REGISTER
