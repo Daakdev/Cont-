@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════
    CONFIGURACIÓN
 ══════════════════════════════════════════ */
-const API_URL = "https://cont-backend.onrender.com";
+const API_URL = "https://cont-backend.onrender.com/api";
 
 /* ══════════════════════════════════════════
    UTILIDAD — fetch autenticado con JWT
