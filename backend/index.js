@@ -4,13 +4,15 @@ const express   = require("express");
 const cors      = require("cors");
 const sequelize = require("./config/db");
 
-// Modelos
+// Modelos — orden importante: empresa y usuario primero
+require("./models/empresa");
+require("./models/usuario");
 require("./models/cliente");
 require("./models/producto");
 require("./models/venta");
 require("./models/gasto");
 require("./models/proveedor");
-require("./models/empleado.js");
+require("./models/empleado");
 require("./models/compra");
 require("./models/nomina");
 
