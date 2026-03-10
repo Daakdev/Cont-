@@ -4,7 +4,7 @@ const express   = require("express");
 const cors      = require("cors");
 const sequelize = require("./config/db");
 
-// Modelos — orden importante: empresa y usuario primero
+// Modelos
 require("./models/empresa");
 require("./models/usuario");
 require("./models/cliente");
@@ -47,23 +47,30 @@ app.use("/api/nomina",      require("./routes/nomina"));
 
 const PORT = process.env.PORT || 3000;
 
-sequelize.sync({ alter: true })
-  .then(() => {
+async function iniciar() {
+  try {
+    // 1. Fix fechas inválidas en tablas existentes antes del sync
+    const tablas = ["usuarios", "clientes", "productos", "ventas", "gastos",
+                    "proveedores", "empleados", "compras", "nomina", "empresas"];
+    for (const tabla of tablas) {
+      try {
+        await sequelize.query(`UPDATE \`${tabla}\` SET createdAt = NOW() WHERE createdAt = '0000-00-00 00:00:00' OR createdAt IS NULL`);
+        await sequelize.query(`UPDATE \`${tabla}\` SET updatedAt = NOW() WHERE updatedAt = '0000-00-00 00:00:00' OR updatedAt IS NULL`);
+      } catch (e) {
+        // La tabla puede no existir aún, ignorar
+      }
+    }
+    console.log("✅ Fix de fechas aplicado");
+
+    // 2. Sync normal
+    await sequelize.sync({ alter: true });
     console.log("✅ Base de datos sincronizada");
+
     app.listen(PORT, () => console.log(`🚀 Servidor en puerto ${PORT}`));
-  })
-  .catch(err => {
+  } catch (err) {
     console.error("❌ Error BD:", err);
     process.exit(1);
-  });
-
-  // RUTA TEMPORAL DE FIX — eliminar después
-app.get("/fix-db", async (req, res) => {
-  try {
-    await sequelize.query("UPDATE usuarios SET createdAt = NOW() WHERE createdAt = '0000-00-00 00:00:00'");
-    await sequelize.query("UPDATE usuarios SET updatedAt = NOW() WHERE updatedAt = '0000-00-00 00:00:00'");
-    res.json({ ok: true, mensaje: "Fix aplicado" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
   }
-});
+}
+
+iniciar();
