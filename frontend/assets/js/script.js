@@ -25,7 +25,7 @@ function togglePassword(id, img) {
   const input = document.getElementById(id);
   const isHidden = input.type === "password";
   input.type = isHidden ? "text" : "password";
-  img.src = isHidden ? "/frontend/assets/img/eyeOff.png" : "/frontend/assets/img/eyeOn.png";
+  img.src = isHidden ? "/assets/img/eyeOff.svg" : "/assets/img/eyeOn.png";
 }
 
 /* ══════════════════════════════════════════
