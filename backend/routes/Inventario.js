@@ -1,7 +1,7 @@
 const express   = require("express");
 const router    = express.Router();
 const { Op, fn, col, literal } = require("sequelize");
-const Producto  = require("../models/Producto");
+const Producto  = require("../models/producto");
 const auth      = require("../middleware/auth");
 
 // GET /api/inventario

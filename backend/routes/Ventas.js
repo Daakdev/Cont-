@@ -1,9 +1,9 @@
 const express  = require("express");
 const router   = express.Router();
 const { Op, fn, col, literal } = require("sequelize");
-const { Venta, DetalleVenta } = require("../models/Venta");
-const Producto = require("../models/Producto");
-const Cliente  = require("../models/Cliente");
+const { Venta, DetalleVenta } = require("../models/venta");
+const Producto = require("../models/producto");
+const Cliente  = require("../models/cliente");
 const auth     = require("../middleware/auth");
 
 // Generar número de factura único

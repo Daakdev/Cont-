@@ -1,8 +1,8 @@
 const express  = require("express");
 const router   = express.Router();
 const { Op }   = require("sequelize");
-const Cliente  = require("../models/Cliente");
-const { Venta }= require("../models/Venta");
+const Cliente  = require("../models/cliente");
+const { Venta }= require("../models/venta");
 const auth     = require("../middleware/auth");
 
 // GET /api/clientes — listar con búsqueda y filtros

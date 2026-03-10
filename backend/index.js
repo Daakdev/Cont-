@@ -6,10 +6,10 @@ const sequelize  = require("./config/db");
 const authRoutes = require("./routes/auth");
 
 // Importar modelos para que Sequelize los registre
-require("./models/Cliente");
-require("./models/Producto");
-require("./models/Venta");
-require("./models/Gasto");
+require("./models/cliente");
+require("./models/producto");
+require("./models/venta");
+require("./models/gasto");
 
 const app = express();
 

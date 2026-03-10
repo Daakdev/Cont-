@@ -1,7 +1,7 @@
 const express = require("express");
 const router  = express.Router();
 const { Op, fn, col } = require("sequelize");
-const Gasto   = require("../models/Gasto");
+const Gasto   = require("../models/gasto");
 const auth    = require("../middleware/auth");
 
 // GET /api/gastos
