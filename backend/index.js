@@ -56,3 +56,14 @@ sequelize.sync({ alter: true })
     console.error("❌ Error BD:", err);
     process.exit(1);
   });
+
+  // RUTA TEMPORAL DE FIX — eliminar después
+app.get("/fix-db", async (req, res) => {
+  try {
+    await sequelize.query("UPDATE usuarios SET createdAt = NOW() WHERE createdAt = '0000-00-00 00:00:00'");
+    await sequelize.query("UPDATE usuarios SET updatedAt = NOW() WHERE updatedAt = '0000-00-00 00:00:00'");
+    res.json({ ok: true, mensaje: "Fix aplicado" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
