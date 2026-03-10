@@ -47,7 +47,7 @@ app.use("/api/nomina",      require("./routes/nomina"));
 
 const PORT = process.env.PORT || 3000;
 
-sequelize.sync({ alter: true })
+sequelize.sync({ alter: false })
   .then(() => {
     console.log("✅ Base de datos sincronizada");
     app.listen(PORT, () => console.log(`🚀 Servidor en puerto ${PORT}`));
