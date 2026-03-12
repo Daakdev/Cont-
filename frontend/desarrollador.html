@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cont+ · Desarrollador</title>
+  <link rel="shortcut icon" href="/assets/img/favicon2.svg" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/stylesDev.css"/>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img class="sidebar-logo" src="/assets/img/logo.svg" alt="Cont+">
+    <img src="/assets/img/icon.svg" alt="" class="sidebar-icon">
+  </div>
+
+  <div class="sidebar-user">
+    <span class="user-avatar inicialUsuario"></span>
+    <div class="user-info">
+      <div class="user-name"><span class="usuario-login"></span></div>
+      <div class="user-role">Desarrollador</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-title">Principal</div>
+    <div class="nav-item active" onclick="showModule('inicio', this)">
+      <img src="/assets/img/home.png" alt="">
+      <span class="nav-label">Inicio</span>
+    </div>
+
+    <div class="nav-section-title">Sistema</div>
+    <div class="nav-item" onclick="showModule('panel', this)">
+      <img src="/assets/img/configure.png" alt="">
+      <span class="nav-label">Panel Técnico</span>
+    </div>
+    <div class="nav-item" onclick="showModule('modulos', this)">
+      <img src="/assets/img/barcode.png" alt="">
+      <span class="nav-label">Módulos</span>
+    </div>
+    <div class="nav-item" onclick="showModule('usuarios', this)">
+      <img src="/assets/img/clients.png" alt="">
+      <span class="nav-label">Usuarios</span>
+    </div>
+    <div class="nav-item" onclick="showModule('logs', this)">
+      <img src="/assets/img/sales.png" alt="">
+      <span class="nav-label">Logs</span>
+    </div>
+
+    <div class="nav-section-title">Configuración</div>
+    <div class="nav-item" onclick="showModule('config', this)">
+      <img src="/assets/img/configure.png" alt="">
+      <span class="nav-label">Config. Sistema</span>
+    </div>
+  </nav>
+
+  <div class="sidebar-toggle" onclick="toggleSidebar()">
+    <div class="toggle-icon"><span></span><span></span><span></span></div>
+    <span class="toggle-label">Contraer</span>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <span class="topbar-title" id="topbar-title">Inicio</span>
+    <div class="topbar-actions">
+      <button class="topbar-btn" title="Recargar métricas" onclick="recargarMetricas()">
+        <div class="btn-icon" style="border-radius:3px;"></div>
+      </button>
+      <button class="topbar-btn" title="Notificaciones" onclick="showModule('logs', document.querySelector('[onclick*=logs]'))">
+        <div class="btn-icon"></div>
+        <span class="notif-dot" id="notif-dot"></span>
+      </button>
+      <div class="topbar-user">
+        <button onclick="logout()" title="Cerrar sesión">
+          <img src="/assets/img/logout.png" alt="Salir">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ INICIO ═══════════════ -->
+  <div class="module active" id="mod-inicio">
+    <div class="content">
+      <div class="greeting">
+        <h2>Hola, <span class="nombreUsuario"></span> 👨‍💻</h2>
+        <p>Panel de administración técnica de Cont+</p>
+      </div>
+
+      <div class="dev-hero">
+        <div>
+          <h2>🖥️ Sistema operativo</h2>
+          <p id="hero-uptime">Verificando servicios...</p>
+        </div>
+        <span class="env-pill dev" id="hero-env">🟡 Verificando...</span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon c-blue"></div>
+          <div class="stat-info">
+            <div class="stat-label">Módulos activos</div>
+            <div class="stat-value" id="ini-modulos">—</div>
+            <div class="stat-change" id="ini-modulos-sub">de 11 disponibles</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon c-green"></div>
+          <div class="stat-info">
+            <div class="stat-label">Estado Backend</div>
+            <div class="stat-value" id="ini-backend" style="font-size:18px;">—</div>
+            <div class="stat-change" id="ini-backend-sub">Verificando...</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon c-orange"></div>
+          <div class="stat-info">
+            <div class="stat-label">Usuarios en BD</div>
+            <div class="stat-value" id="ini-usuarios">—</div>
+            <div class="stat-change" id="ini-usuarios-sub">Cargando...</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon c-purple"></div>
+          <div class="stat-info">
+            <div class="stat-label">Errores hoy</div>
+            <div class="stat-value" id="ini-errores" style="color:#22c55e;">0</div>
+            <div class="stat-change up">Consola limpia</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Estado de servicios</span>
+          <span id="ini-last-check" style="font-size:12px;color:#999;"></span>
+        </div>
+        <div style="padding:8px 0;display:flex;flex-direction:column;gap:12px;" id="ini-servicios">
+          <div class="perf-row"><span class="perf-lbl">Autenticación</span><div class="perf-bg"><div class="perf-fill" style="width:100%;background:#22c55e;"></div></div><span class="perf-pct">100%</span></div>
+          <div class="perf-row"><span class="perf-lbl">Dashboard</span><div class="perf-bg"><div class="perf-fill" style="width:100%;background:#22c55e;"></div></div><span class="perf-pct">100%</span></div>
+          <div class="perf-row"><span class="perf-lbl">Módulos Gestión</span><div class="perf-bg"><div class="perf-fill" style="width:90%;background:#009dff;"></div></div><span class="perf-pct">90%</span></div>
+          <div class="perf-row"><span class="perf-lbl">Módulos Finanzas</span><div class="perf-bg"><div class="perf-fill" style="width:80%;background:#009dff;"></div></div><span class="perf-pct">80%</span></div>
+          <div class="perf-row" id="perf-backend">
+            <span class="perf-lbl">Backend / BD</span>
+            <div class="perf-bg"><div class="perf-fill" id="perf-backend-fill" style="width:0%;background:#ef4444;"></div></div>
+            <span class="perf-pct" id="perf-backend-pct" style="color:#ef4444;">...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ PANEL TÉCNICO ═══════════════ -->
+  <div class="module" id="mod-panel">
+    <div class="page-header">
+      <div>
+        <div class="page-title">🖥️ Panel Técnico</div>
+        <div class="page-subtitle">Estado general del sistema Cont+</div>
+      </div>
+      <span class="env-pill dev" style="padding:8px 18px;" id="panel-version">v1.0.0</span>
+    </div>
+    <div class="content">
+
+      <div class="dev-hero">
+        <div>
+          <h2 id="panel-hero-title">Sistema operativo — Entorno: Development</h2>
+          <p id="panel-hero-sub">Verificando conexión con backend...</p>
+        </div>
+        <span class="env-pill dev" id="panel-hero-status">🟡 Verificando</span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Versión</div><div class="stat-value" style="font-size:20px;">1.0.0</div><div class="stat-change">Build actual</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Módulos totales</div><div class="stat-value">11</div><div class="stat-change">9 activos · 2 dev</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Backend URL</div><div class="stat-value" style="font-size:13px;word-break:break-all;" id="panel-api-url">—</div><div class="stat-change">API REST</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-teal"></div><div class="stat-info"><div class="stat-label">Estado BD</div><div class="stat-value" id="panel-bd-estado" style="font-size:18px;">—</div><div class="stat-change" id="panel-bd-sub">MySQL / Aiven</div></div></div>
+      </div>
+
+      <div class="two-col">
+        <div class="table-card">
+          <div class="table-header"><span class="table-title">Rendimiento de módulos</span></div>
+          <div style="padding:18px 22px;display:flex;flex-direction:column;gap:12px;">
+            <div class="perf-row"><span class="perf-lbl">Autenticación</span><div class="perf-bg"><div class="perf-fill" style="width:100%;background:#22c55e;"></div></div><span class="perf-pct">100%</span></div>
+            <div class="perf-row"><span class="perf-lbl">Dashboard</span><div class="perf-bg"><div class="perf-fill" style="width:100%;background:#22c55e;"></div></div><span class="perf-pct">100%</span></div>
+            <div class="perf-row"><span class="perf-lbl">Ventas</span><div class="perf-bg"><div class="perf-fill" style="width:95%;background:#009dff;"></div></div><span class="perf-pct">95%</span></div>
+            <div class="perf-row"><span class="perf-lbl">Inventario</span><div class="perf-bg"><div class="perf-fill" style="width:90%;background:#009dff;"></div></div><span class="perf-pct">90%</span></div>
+            <div class="perf-row"><span class="perf-lbl">Nómina</span><div class="perf-bg"><div class="perf-fill" style="width:85%;background:#eab308;"></div></div><span class="perf-pct">85%</span></div>
+            <div class="perf-row"><span class="perf-lbl">Backend / BD</span><div class="perf-bg"><div class="perf-fill" id="panel-perf-backend" style="width:0%;background:#ef4444;"></div></div><span class="perf-pct" id="panel-perf-backend-pct" style="color:#ef4444;">...</span></div>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-header"><span class="table-title">Endpoints del API</span></div>
+          <table>
+            <thead><tr><th>Endpoint</th><th>Estado</th></tr></thead>
+            <tbody id="panel-endpoints">
+              <tr><td><code>/api/auth/login</code></td><td><span class="badge badge-orange">Verificando</span></td></tr>
+              <tr><td><code>/api/clientes</code></td><td><span class="badge badge-orange">Verificando</span></td></tr>
+              <tr><td><code>/api/inventario</code></td><td><span class="badge badge-orange">Verificando</span></td></tr>
+              <tr><td><code>/api/ventas</code></td><td><span class="badge badge-orange">Verificando</span></td></tr>
+              <tr><td><code>/api/gastos</code></td><td><span class="badge badge-orange">Verificando</span></td></tr>
+              <tr><td><code>/api/proveedores</code></td><td><span class="badge badge-orange">Verificando</span></td></tr>
+              <tr><td><code>/api/empleados</code></td><td><span class="badge badge-orange">Verificando</span></td></tr>
+              <tr><td><code>/api/compras</code></td><td><span class="badge badge-orange">Verificando</span></td></tr>
+              <tr><td><code>/api/nomina</code></td><td><span class="badge badge-orange">Verificando</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ MÓDULOS ═══════════════ -->
+  <div class="module" id="mod-modulos">
+    <div class="page-header">
+      <div>
+        <div class="page-title">🧩 Módulos del Sistema</div>
+        <div class="page-subtitle">Estado y configuración de cada módulo</div>
+      </div>
+      <button class="btn btn-primary" onclick="guardarModulos()">💾 Guardar cambios</button>
+    </div>
+    <div class="content">
+      <div class="table-card">
+        <div class="table-header"><span class="table-title">Módulos disponibles</span></div>
+        <table>
+          <thead><tr><th>Módulo</th><th>Descripción</th><th>Roles</th><th>Estado</th><th>Toggle</th></tr></thead>
+          <tbody>
+            <tr><td><strong>🏠 Dashboard</strong></td><td>Panel principal con indicadores</td><td><span class="rp admin">Admin</span><span class="rp emp">Emp</span><span class="rp dev">Dev</span></td><td><span class="badge badge-green">● Activo</span></td><td><div class="toggle-pill on" onclick="toggleModulo(this)"></div></td></tr>
+            <tr><td><strong>💰 Ventas</strong></td><td>Facturación e historial de ventas</td><td><span class="rp admin">Admin</span></td><td><span class="badge badge-green">● Activo</span></td><td><div class="toggle-pill on" onclick="toggleModulo(this)"></div></td></tr>
+            <tr><td><strong>📦 Inventario</strong></td><td>Stock y gestión de productos</td><td><span class="rp admin">Admin</span></td><td><span class="badge badge-green">● Activo</span></td><td><div class="toggle-pill on" onclick="toggleModulo(this)"></div></td></tr>
+            <tr><td><strong>👥 Clientes</strong></td><td>Base de datos de clientes</td><td><span class="rp admin">Admin</span></td><td><span class="badge badge-green">● Activo</span></td><td><div class="toggle-pill on" onclick="toggleModulo(this)"></div></td></tr>
+            <tr><td><strong>🏭 Proveedores</strong></td><td>Gestión de proveedores</td><td><span class="rp admin">Admin</span></td><td><span class="badge badge-green">● Activo</span></td><td><div class="toggle-pill on" onclick="toggleModulo(this)"></div></td></tr>
+            <tr><td><strong>📋 Nómina</strong></td><td>Roles y procesamiento de pagos</td><td><span class="rp admin">Admin</span></td><td><span class="badge badge-green">● Activo</span></td><td><div class="toggle-pill on" onclick="toggleModulo(this)"></div></td></tr>
+            <tr><td><strong>🛒 Compras</strong></td><td>Órdenes de compra</td><td><span class="rp admin">Admin</span></td><td><span class="badge badge-green">● Activo</span></td><td><div class="toggle-pill on" onclick="toggleModulo(this)"></div></td></tr>
+            <tr><td><strong>👤 Empleados</strong></td><td>Gestión del personal</td><td><span class="rp admin">Admin</span></td><td><span class="badge badge-green">● Activo</span></td><td><div class="toggle-pill on" onclick="toggleModulo(this)"></div></td></tr>
+            <tr><td><strong>💸 Gastos</strong></td><td>Control de gastos operativos</td><td><span class="rp admin">Admin</span></td><td><span class="badge badge-green">● Activo</span></td><td><div class="toggle-pill on" onclick="toggleModulo(this)"></div></td></tr>
+            <tr><td><strong>🖥️ Panel Dev</strong></td><td>Herramientas técnicas del sistema</td><td><span class="rp dev">Dev</span></td><td><span class="badge badge-green">● Activo</span></td><td><div class="toggle-pill on" onclick="toggleModulo(this)"></div></td></tr>
+            <tr><td><strong>📊 Reportes PDF</strong></td><td>Exportación de informes</td><td><span class="rp admin">Admin</span></td><td><span class="badge badge-orange">⏳ En desarrollo</span></td><td><div class="toggle-pill off" onclick="toggleModulo(this)"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ USUARIOS ═══════════════ -->
+  <div class="module" id="mod-usuarios">
+    <div class="page-header">
+      <div>
+        <div class="page-title">👥 Gestión de Usuarios</div>
+        <div class="page-subtitle">Roles, permisos y cuentas del sistema</div>
+      </div>
+      <button class="btn btn-primary" onclick="crearUsuario()">+ Nuevo Usuario</button>
+    </div>
+    <div class="content">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Total usuarios</div><div class="stat-value" id="usr-total">—</div><div class="stat-change">Registrados en BD</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Administradores</div><div class="stat-value" id="usr-admins">—</div><div class="stat-change">Acceso completo</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Empleados</div><div class="stat-value" id="usr-emps">—</div><div class="stat-change">Acceso limitado</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-purple"></div><div class="stat-info"><div class="stat-label">Empresas</div><div class="stat-value" id="usr-empresas">—</div><div class="stat-change">Multi-tenant</div></div></div>
+      </div>
+
+      <div class="filter-bar">
+        <div class="search-wrap"><input class="search-input" type="text" id="usr-search" placeholder="Buscar usuario, email..." oninput="filtrarUsuarios()"></div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <span class="table-title">Usuarios registrados</span>
+          <span id="usr-count" style="font-size:12px;color:#999;"></span>
+        </div>
+        <table>
+          <thead><tr><th>Usuario</th><th>Email</th><th>Empresa</th><th>Rol</th><th>Estado</th></tr></thead>
+          <tbody id="usr-tbody">
+            <tr><td colspan="5" style="text-align:center;color:#999;padding:30px;">Cargando usuarios...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ LOGS ═══════════════ -->
+  <div class="module" id="mod-logs">
+    <div class="page-header">
+      <div>
+        <div class="page-title">📜 Logs del Sistema</div>
+        <div class="page-subtitle">Registro de eventos y actividad</div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-secondary" onclick="limpiarLogs()">🗑️ Limpiar</button>
+        <button class="btn btn-secondary" onclick="exportarLogs()">⬇️ Exportar</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Eventos totales</div><div class="stat-value" id="log-total">0</div><div class="stat-change">En sesión actual</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-red"></div><div class="stat-info"><div class="stat-label">Errores</div><div class="stat-value" id="log-errores" style="color:#22c55e;">0</div><div class="stat-change up" id="log-errores-sub">Sin errores</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Advertencias</div><div class="stat-value" id="log-warns" style="color:#eab308;">0</div><div class="stat-change">Recursos</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-teal"></div><div class="stat-info"><div class="stat-label">Info / OK</div><div class="stat-value" id="log-info">0</div><div class="stat-change">Eventos normales</div></div></div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <span class="table-title">Consola de eventos</span>
+          <div style="display:flex;gap:8px;">
+            <button class="act-btn" onclick="filtrarLog('all')" style="border-color:#009dff;color:#009dff;">Todos</button>
+            <button class="act-btn" onclick="filtrarLog('error')">Errores</button>
+            <button class="act-btn" onclick="filtrarLog('warn')">Warn</button>
+            <button class="act-btn" onclick="filtrarLog('info')">Info</button>
+            <button class="act-btn" onclick="filtrarLog('ok')">OK</button>
+          </div>
+        </div>
+        <div style="padding:16px 20px;">
+          <div class="log-term" id="log-terminal"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ CONFIG. SISTEMA ═══════════════ -->
+  <div class="module" id="mod-config">
+    <div class="page-header">
+      <div>
+        <div class="page-title">⚙️ Configuración del Sistema</div>
+        <div class="page-subtitle">Parámetros técnicos y entorno</div>
+      </div>
+      <button class="btn btn-primary" onclick="aplicarConfig()">💾 Aplicar cambios</button>
+    </div>
+    <div class="content">
+      <div class="two-col">
+        <div class="form-card">
+          <div class="form-section-title">🌐 Entorno</div>
+          <div class="form-grid">
+            <div class="form-group full"><label>Modo</label>
+              <select id="cfg-modo">
+                <option value="development">Desarrollo</option>
+                <option value="production">Producción</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Versión</label><input type="text" value="1.0.0" readonly style="background:#f4f6fb;color:#999;"/></div>
+            <div class="form-group"><label>Build</label><input type="text" value="Node.js + Express + MySQL" readonly style="background:#f4f6fb;color:#999;"/></div>
+            <div class="form-group full"><label>Backend URL</label><input type="text" id="cfg-api-url" placeholder="https://cont-backend.onrender.com"/></div>
+            <div class="form-group full"><label>JWT Secret (últimos 4 chars)</label><input type="text" id="cfg-jwt" readonly style="background:#f4f6fb;color:#999;" placeholder="****"/></div>
+          </div>
+        </div>
+        <div class="form-card">
+          <div class="form-section-title">🗄️ Base de Datos</div>
+          <div class="form-grid">
+            <div class="form-group full"><label>Tipo</label><input readonly value="MySQL (Aiven Cloud)" style="background:#f4f6fb;color:#999;"/></div>
+            <div class="form-group full"><label>Host</label><input readonly id="cfg-db-host" style="background:#f4f6fb;color:#999;" value="mysql-19fe2093-cont.e.aivencloud.com"/></div>
+            <div class="form-group"><label>Puerto</label><input readonly value="24555" style="background:#f4f6fb;color:#999;"/></div>
+            <div class="form-group"><label>Estado</label><input readonly id="cfg-db-estado" style="background:#f4f6fb;color:#999;" value="Verificando..."/></div>
+          </div>
+          <div style="margin-top:16px;">
+            <button class="btn btn-secondary" style="width:100%;justify-content:center;" onclick="testConexion()">🔌 Probar conexión</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="form-section-title">🚧 Roadmap — Módulos en desarrollo</div>
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div class="roadmap-item">
+            <div class="roadmap-item-info"><strong>Reportes PDF / Excel</strong><span>Exportación de nómina, ventas e inventario</span></div>
+            <span class="badge badge-purple">📋 Planificado</span>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-item-info"><strong>Notificaciones en tiempo real</strong><span>WebSockets para alertas instantáneas</span></div>
+            <span class="badge badge-purple">📋 Planificado</span>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-item-info"><strong>App móvil</strong><span>React Native para iOS y Android</span></div>
+            <span class="badge badge-purple">📋 Planificado</span>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-item-info"><strong>Espacio Empleado</strong><span>Perfil, nómina, horario y solicitudes</span></div>
+            <span class="badge badge-orange">⏳ En desarrollo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="/scriptDev.js"></script>
+</body>
+</html>
