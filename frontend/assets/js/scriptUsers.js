@@ -26,16 +26,23 @@ function badgeEstado(estado) {
 ══════════════════════════════════════════ */
 document.addEventListener("DOMContentLoaded", function () {
   const token = localStorage.getItem("token");
-  const usuario = localStorage.getItem("usuario");
-  if (!token || !usuario) { window.location.href = "index.html"; return; }
+  const usuarioRaw = localStorage.getItem("usuario");
+  if (!token || !usuarioRaw) { window.location.href = "index.html"; return; }
   try {
     const p = JSON.parse(atob(token.split(".")[1]));
     if (p.exp && Date.now() / 1000 > p.exp) { logout(); return; }
   } catch { logout(); return; }
 
-  document.querySelectorAll(".nombreUsuario").forEach(el => el.textContent = usuario);
-  document.querySelectorAll(".usuario-login").forEach(el => el.textContent = usuario);
-  document.querySelectorAll(".inicialUsuario").forEach(el => el.textContent = usuario.charAt(0).toUpperCase());
+  // Soporta string legacy y objeto JSON nuevo { nombre, rol, ... }
+  let nombreUsuario = usuarioRaw;
+  try {
+    const obj = JSON.parse(usuarioRaw);
+    if (obj && obj.nombre) nombreUsuario = obj.nombre;
+  } catch { /* era string simple, ok */ }
+
+  document.querySelectorAll(".nombreUsuario").forEach(el => el.textContent = nombreUsuario);
+  document.querySelectorAll(".usuario-login").forEach(el => el.textContent = nombreUsuario);
+  document.querySelectorAll(".inicialUsuario").forEach(el => el.textContent = nombreUsuario.charAt(0).toUpperCase());
 
   cargarDashboard();
 

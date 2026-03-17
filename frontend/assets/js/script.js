@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════
    CONFIGURACIÓN
 ══════════════════════════════════════════ */
-const API_URL = "https://cont-backend.onrender.com/api";
+const API_URL = "https://cont-backend.onrender.com";
 
 /* ══════════════════════════════════════════
    TOGGLE UI: LOGIN ↔ REGISTER
@@ -25,7 +25,7 @@ function togglePassword(id, img) {
   const input = document.getElementById(id);
   const isHidden = input.type === "password";
   input.type = isHidden ? "text" : "password";
-  img.src = isHidden ? "/assets/img/eyeOff.svg" : "/assets/img/eyeOn.png";
+  img.src = isHidden ? "/assets/img/eyeOff.png" : "/assets/img/eyeOn.png";
 }
 
 /* ══════════════════════════════════════════
@@ -122,10 +122,15 @@ async function iniciarSesion() {
 
     // Guardar token y datos del usuario
     localStorage.setItem("token", data.token);
-    localStorage.setItem("usuario", data.usuario);
+    localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
-    // Redirigir al dashboard
-    window.location.href = "users.html";
+    // Redirigir según rol
+    const rol = data.usuario?.rol;
+    if (rol === "desarrollador") {
+      window.location.href = "/developer.html";
+    } else {
+      window.location.href = "/users.html";
+    }
 
   } catch (err) {
     console.error("Error en login:", err);
