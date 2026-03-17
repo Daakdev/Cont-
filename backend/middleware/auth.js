@@ -8,11 +8,18 @@ module.exports = function auth(req, res, next) {
   if (!token) return res.status(401).json({ error: "Token inválido" });
 
   try {
-    const decoded  = jwt.verify(token, process.env.JWT_SECRET);
-    req.usuario    = decoded;           // { id, usuario, empresa_id }
-    req.empresaId  = decoded.empresa_id;
+    const decoded     = jwt.verify(token, process.env.JWT_SECRET);
+    req.usuario       = decoded;
+    req.empresaId     = decoded.empresa_id;
+    req.usuarioId     = decoded.id;
+    req.rol           = decoded.rol || "admin";
+
+    if (!req.empresaId) {
+      return res.status(401).json({ error: "Token sin empresa — vuelve a iniciar sesión" });
+    }
+
     next();
   } catch {
-    return res.status(403).json({ error: "Token expirado o inválido" });
+    return res.status(403).json({ error: "Token expirado — vuelve a iniciar sesión" });
   }
 };
