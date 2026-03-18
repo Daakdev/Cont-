@@ -148,4 +148,32 @@ router.post("/eliminar-usuario", async (req, res) => {
   }
 });
 
+
+// POST /api/auth/limpiar-bd  →  elimina todos los datos de todas las tablas
+router.post("/limpiar-bd", async (req, res) => {
+  const { dev_secret } = req.body;
+  if (!dev_secret || dev_secret !== process.env.DEV_SECRET) {
+    return res.status(403).json({ error: "No autorizado" });
+  }
+  try {
+    const sequelize = require("../config/db");
+    const tablas = [
+      "detalle_ventas", "detalle_compras",
+      "ventas", "compras", "nomina",
+      "clientes", "productos", "gastos",
+      "proveedores", "empleados"
+    ];
+    await sequelize.query("SET FOREIGN_KEY_CHECKS = 0");
+    for (const tabla of tablas) {
+      try {
+        await sequelize.query(`TRUNCATE TABLE \`${tabla}\``);
+      } catch(e) { /* tabla no existe, ignorar */ }
+    }
+    await sequelize.query("SET FOREIGN_KEY_CHECKS = 1");
+    res.json({ mensaje: "Base de datos limpiada correctamente", tablas });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
