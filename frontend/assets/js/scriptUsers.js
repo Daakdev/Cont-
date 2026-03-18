@@ -375,8 +375,43 @@ async function cargarEmpleados(){
 async function guardarEmpleado(datos,id=null){const res=await apiFetch(id?`/empleados/${id}`:"/empleados",{method:id?"PUT":"POST",body:JSON.stringify(datos)});if(!res)return;await cargarEmpleados();cerrarModal();}
 async function eliminarEmpleado(id){if(!confirm("¿Eliminar?"))return;await apiFetch(`/empleados/${id}`,{method:"DELETE"});cargarEmpleados();}
 function editarEmpleado(id){const e=empleadosData.find(x=>x.id===id);if(!e)return;abrirModal("Editar Empleado",formEmpleado(e),()=>guardarEmpleado(recogerFormEmpleado(),id));}
-function formEmpleado(e={}){return`<div class="form-grid"><div class="form-group full"><label>Nombre *</label><input id="m-nombre" value="${e.nombre||""}" placeholder="Nombre completo"/></div><div class="form-group"><label>Cargo</label><input id="m-cargo" value="${e.cargo||""}" placeholder="Desarrollador, Contador..."/></div><div class="form-group"><label>Departamento</label><input id="m-depto" value="${e.departamento||""}" placeholder="Tecnología, Finanzas..."/></div><div class="form-group"><label>Email</label><input id="m-email" type="email" value="${e.email||""}" placeholder="empleado@email.com"/></div><div class="form-group"><label>Teléfono</label><input id="m-telefono" value="${e.telefono||""}" placeholder="300 000 0000"/></div><div class="form-group"><label>Fecha Ingreso</label><input id="m-ingreso" type="date" value="${e.fecha_ingreso||""}"/></div><div class="form-group"><label>Sueldo Base</label><input id="m-sueldo" type="number" value="${e.sueldo_base||0}" min="0" step="0.01"/></div><div class="form-group"><label>Estado</label><select id="m-estado"><option value="activo" ${e.estado==="activo"?"selected":""}>Activo</option><option value="vacaciones" ${e.estado==="vacaciones"?"selected":""}>Vacaciones</option><option value="inactivo" ${e.estado==="inactivo"?"selected":""}>Inactivo</option></select></div></div>`;}
-function recogerFormEmpleado(){return{nombre:document.getElementById("m-nombre").value,cargo:document.getElementById("m-cargo").value,departamento:document.getElementById("m-depto").value,email:document.getElementById("m-email").value,telefono:document.getElementById("m-telefono").value,fecha_ingreso:document.getElementById("m-ingreso").value,sueldo_base:parseFloat(document.getElementById("m-sueldo").value)||0,estado:document.getElementById("m-estado").value};}
+function formEmpleado(e={}){
+  const esNuevo = !e.id;
+  return `<div class="form-grid">
+    <div class="form-group full"><label>Nombre *</label><input id="m-nombre" value="${e.nombre||""}" placeholder="Nombre completo"/></div>
+    <div class="form-group"><label>Cargo</label><input id="m-cargo" value="${e.cargo||""}" placeholder="Desarrollador, Contador..."/></div>
+    <div class="form-group"><label>Departamento</label><input id="m-depto" value="${e.departamento||""}" placeholder="Tecnología, Finanzas..."/></div>
+    <div class="form-group"><label>Email</label><input id="m-email" type="email" value="${e.email||""}" placeholder="empleado@email.com"/></div>
+    <div class="form-group"><label>Teléfono</label><input id="m-telefono" value="${e.telefono||""}" placeholder="300 000 0000"/></div>
+    <div class="form-group"><label>Fecha Ingreso</label><input id="m-ingreso" type="date" value="${e.fecha_ingreso||""}"/></div>
+    <div class="form-group"><label>Sueldo Base</label><input id="m-sueldo" type="number" value="${e.sueldo_base||0}" min="0" step="0.01"/></div>
+    <div class="form-group"><label>Estado</label><select id="m-estado"><option value="activo" ${e.estado==="activo"?"selected":""}>Activo</option><option value="vacaciones" ${e.estado==="vacaciones"?"selected":""}>Vacaciones</option><option value="inactivo" ${e.estado==="inactivo"?"selected":""}>Inactivo</option></select></div>
+    ${esNuevo ? `
+    <div class="form-group full" style="border-top:1.5px solid #f0f2f8;padding-top:14px;margin-top:4px">
+      <label style="color:var(--blue)">🔐 Cuenta de Acceso (opcional)</label>
+    </div>
+    <div class="form-group"><label>Usuario</label><input id="m-usuario" placeholder="usuario123"/></div>
+    <div class="form-group"><label>Contraseña</label><input id="m-password" type="password" placeholder="Mínimo 6 caracteres"/></div>
+    ` : ''}
+  </div>`;
+}
+function recogerFormEmpleado(){
+  const datos = {
+    nombre:       document.getElementById("m-nombre").value,
+    cargo:        document.getElementById("m-cargo").value,
+    departamento: document.getElementById("m-depto").value,
+    email:        document.getElementById("m-email").value,
+    telefono:     document.getElementById("m-telefono").value,
+    fecha_ingreso:document.getElementById("m-ingreso").value,
+    sueldo_base:  parseFloat(document.getElementById("m-sueldo").value)||0,
+    estado:       document.getElementById("m-estado").value
+  };
+  const usuarioEl  = document.getElementById("m-usuario");
+  const passwordEl = document.getElementById("m-password");
+  if (usuarioEl  && usuarioEl.value)  datos.usuario  = usuarioEl.value;
+  if (passwordEl && passwordEl.value) datos.password = passwordEl.value;
+  return datos;
+}
 
 /* ══════════════════════════════════════════
    COMPRAS

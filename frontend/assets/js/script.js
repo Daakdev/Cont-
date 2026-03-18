@@ -128,6 +128,8 @@ async function iniciarSesion() {
     const rol = data.usuario?.rol;
     if (rol === "desarrollador") {
       window.location.href = "/desarrollador.html";
+    } else if (rol === "empleado") {
+      window.location.href = "/empleado.html";
     } else {
       window.location.href = "/users.html";
     }
