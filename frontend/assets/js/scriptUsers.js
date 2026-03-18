@@ -93,7 +93,7 @@ function showModule(name, el) {
   el?.classList.add("active");
   setText("topbar-title", moduleTitles[name] || name);
   document.querySelector(".main").scrollTop = 0;
-  const loaders = { clientes: cargarClientes, inventario: cargarInventario, ventas: cargarVentas, gastos: cargarGastos, proveedores: cargarProveedores, empleados: cargarEmpleados, compras: cargarCompras, nomina: cargarNomina };
+  const loaders = { clientes: cargarClientes, inventario: cargarInventario, ventas: cargarVentas, gastos: cargarGastos, proveedores: cargarProveedores, empleados: cargarEmpleados, compras: cargarCompras, nomina: cargarNomina, configuracion: cargarConfiguracion };
   if (loaders[name]) loaders[name]();
 }
 
@@ -174,8 +174,12 @@ async function cargarClientes() {
     : `<tr><td colspan="8" style="text-align:center;color:#999;padding:30px">Sin clientes</td></tr>`;
 }
 async function guardarCliente(datos, id=null) {
+  if(!datos.nombre){alert("El nombre es obligatorio.");return;}
   const res = await apiFetch(id?`/clientes/${id}`:"/clientes",{method:id?"PUT":"POST",body:JSON.stringify(datos)});
-  if(!res)return; await cargarClientes(); cerrarModal();
+  if(!res)return;
+  const data = await res.json();
+  if(!res.ok){alert("Error: "+(data.error||JSON.stringify(data)));return;}
+  await cargarClientes(); cerrarModal();
 }
 async function eliminarCliente(id) {
   if(!confirm("¿Eliminar este cliente?"))return;
@@ -223,7 +227,14 @@ async function cargarInventario() {
         <td><button class="btn btn-secondary" style="padding:4px 10px;font-size:12px" onclick="editarProducto(${p.id})">✏️</button><button class="btn btn-secondary" style="padding:4px 10px;font-size:12px;margin-left:4px" onclick="eliminarProducto(${p.id})">🗑️</button></td></tr>`;}).join("")
     :`<tr><td colspan="8" style="text-align:center;color:#999;padding:30px">Sin productos</td></tr>`;
 }
-async function guardarProducto(datos,id=null){const res=await apiFetch(id?`/inventario/${id}`:"/inventario",{method:id?"PUT":"POST",body:JSON.stringify(datos)});if(!res)return;await cargarInventario();cerrarModal();}
+async function guardarProducto(datos,id=null){
+  if(!datos.nombre){alert("El nombre es obligatorio.");return;}
+  const res=await apiFetch(id?`/inventario/${id}`:"/inventario",{method:id?"PUT":"POST",body:JSON.stringify(datos)});
+  if(!res)return;
+  const data=await res.json();
+  if(!res.ok){alert("Error: "+(data.error||JSON.stringify(data)));return;}
+  await cargarInventario();cerrarModal();
+}
 async function eliminarProducto(id){if(!confirm("¿Eliminar?"))return;await apiFetch(`/inventario/${id}`,{method:"DELETE"});cargarInventario();}
 function editarProducto(id){const p=inventarioData.find(x=>x.id===id);if(!p)return;abrirModal("Editar Producto",formProducto(p),()=>guardarProducto(recogerFormProducto(),id));}
 function formProducto(p={}){return`<div class="form-grid"><div class="form-group full"><label>Nombre *</label><input id="m-nombre" value="${p.nombre||""}" placeholder="Nombre del producto"/></div><div class="form-group"><label>Código</label><input id="m-codigo" value="${p.codigo||""}" placeholder="SKU-001"/></div><div class="form-group"><label>Categoría</label><input id="m-categoria" value="${p.categoria||""}" placeholder="Electrónica..."/></div><div class="form-group"><label>Stock</label><input id="m-stock" type="number" value="${p.stock||0}" min="0"/></div><div class="form-group"><label>Stock Mínimo</label><input id="m-stock-min" type="number" value="${p.stock_minimo||5}" min="0"/></div><div class="form-group"><label>Precio Costo</label><input id="m-costo" type="number" value="${p.precio_costo||0}" min="0" step="0.01"/></div><div class="form-group"><label>Precio Venta</label><input id="m-venta" type="number" value="${p.precio_venta||0}" min="0" step="0.01"/></div><div class="form-group full"><label>Descripción</label><textarea id="m-desc">${p.descripcion||""}</textarea></div></div>`;}
@@ -465,6 +476,68 @@ function editarNomina(id){
     async()=>{await apiFetch(`/nomina/${id}`,{method:"PUT",body:JSON.stringify({horas_extra:parseFloat(document.getElementById("m-horas").value)||0,descuentos:parseFloat(document.getElementById("m-desc").value)||0,estado:document.getElementById("m-estado").value})});await cargarNomina();cerrarModal();});
 }
 
+
+/* ══════════════════════════════════════════
+   CONFIGURACIÓN
+══════════════════════════════════════════ */
+async function cargarConfiguracion() {
+  const res = await apiFetch("/configuracion");
+  if (!res) return;
+  const { empresa, usuarios } = await res.json();
+
+  if (empresa) {
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ""; };
+    set("cfg-razon",     empresa.nombre);
+    set("cfg-ruc",       empresa.rut);
+    set("cfg-telefono",  empresa.telefono);
+    set("cfg-direccion", empresa.direccion);
+    set("cfg-email",     empresa.email);
+    set("cfg-web",       empresa.web);
+    set("cfg-moneda",    empresa.moneda);
+    set("cfg-iva",       empresa.iva);
+    set("cfg-retencion", empresa.retencion);
+    set("cfg-stock-min", empresa.stock_min_alerta);
+    set("cfg-factura",   empresa.formato_factura);
+  }
+
+  const tbody = document.getElementById("cfg-usuarios-tbody");
+  if (tbody && usuarios) {
+    const rolLabel = { admin:"Administrador", empleado:"Empleado", desarrollador:"Desarrollador" };
+    tbody.innerHTML = usuarios.map(u => `
+      <tr>
+        <td><strong>${u.usuario}</strong><br><small style="color:#999">${u.correo||""}</small></td>
+        <td><span class="badge badge-blue">${rolLabel[u.rol]||u.rol}</span></td>
+        <td><span style="color:#22c55e;font-weight:700;">● Activo</span></td>
+      </tr>
+    `).join("");
+  }
+}
+
+async function guardarConfiguracion() {
+  const get = id => { const el = document.getElementById(id); return el ? el.value : ""; };
+  const datos = {
+    nombre:           get("cfg-razon"),
+    rut:              get("cfg-ruc"),
+    telefono:         get("cfg-telefono"),
+    direccion:        get("cfg-direccion"),
+    email:            get("cfg-email"),
+    web:              get("cfg-web"),
+    moneda:           get("cfg-moneda"),
+    iva:              parseFloat(get("cfg-iva")) || 0,
+    retencion:        parseFloat(get("cfg-retencion")) || 0,
+    stock_min_alerta: parseInt(get("cfg-stock-min")) || 10,
+    formato_factura:  get("cfg-factura"),
+  };
+  if (!datos.nombre) { alert("El nombre de la empresa es obligatorio."); return; }
+  const res = await apiFetch("/configuracion", { method: "PUT", body: JSON.stringify(datos) });
+  if (!res) return;
+  const data = await res.json();
+  if (!res.ok) { alert("Error: " + (data.error || "No se pudo guardar")); return; }
+  alert("✅ Configuración guardada correctamente.");
+}
+
+function toggleNotif(el) { el.classList.toggle("on"); el.classList.toggle("off"); }
+
 /* ══════════════════════════════════════════
    MODAL GENÉRICO
 ══════════════════════════════════════════ */
@@ -476,4 +549,3 @@ function abrirModal(titulo,htmlContenido,onGuardar){
   document.getElementById("modal-guardar-btn").onclick=onGuardar;
 }
 function cerrarModal(){const m=document.getElementById("modal-global");if(m)m.style.display="none";}
-function toggleNotif(el){el.classList.toggle("on");el.classList.toggle("off");}
