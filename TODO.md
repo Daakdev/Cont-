@@ -1,17 +1,31 @@
-# Plan de Corrección: Login redirige al login después de autenticar
+# Plan Multi-Tenant: BD separada por Admin/Empresa
 
-## Diagnóstico
-- Login backend funciona correctamente (JWT con empresa_id).
-- Middleware auth rechaza si `!req.empresaId` → 401 "Token sin empresa".
-- Frontend `apiFetch()` detecta 401 → `logout()` → redirect a index.html.
-- Causa raíz: Usuario sin `empresa_id` válido en DB/token.
+**Diagnóstico actual:**
+- Single BD con `empresa_id` filter.
+- Request: BD física separada por admin.
 
-## Pasos Pendientes
-- [x] 1. Suavizar middleware auth.js (permitir fallback empresa_id).\n- [x] 2. Editar auth.js: Agregar /verify endpoint (fix-empresa pendiente).
-- [ ] 3. Actualizar scriptUsers.js: Manejar 401 "sin empresa" sin logout auto.
-- [ ] 4. Hacer empresa_id non-nullable en models/usuario.js.
-- [ ] 5. Ejecutar fix DB: UPDATE usuarios SET empresa_id=1 WHERE empresa_id IS NULL.
-- [ ] 6. Test: login → dashboard sin redirect.
-- [ ] 7. Restart backend y probar.
+**Plan Detallado:**
+**1. Central 'main' DB:** auth, usuarios, empresas (meta: id, nombre, db_name).
 
-**Estado: Esperando aprobación del plan (responde "aprobar" o feedback).**
+**2. Register flow:**
+- Create empresa in main DB.
+- Create new MySQL DB `contplus_${empresa.id}`.
+- Create tables in new DB (copy schema).
+- Update empresa: db_name = `contplus_${id}`.
+
+**3. Dynamic DB:**
+- Middleware sets sequelize = pool[req.empresaId].
+- All models use dynamic sequelize.
+
+**4. Frontend:** Admin selecciona empresa (dropdown token switch).
+
+**Dependent Files:**
+- `backend/config/multi-db.js`: Pool.
+- `backend/routes/auth.js`: DB creation.
+- `backend/index.js`: Init pools.
+- Models: accept sequelize param.
+
+**Follow-up:**
+- Setup multiple MySQL (Aiven limits? Local OK?).
+- Test isolation.
+
