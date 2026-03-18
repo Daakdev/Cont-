@@ -127,7 +127,7 @@ async function iniciarSesion() {
     // Redirigir según rol
     const rol = data.usuario?.rol;
     if (rol === "desarrollador") {
-      window.location.href = "/developer.html";
+      window.location.href = "/desarrollador.html";
     } else {
       window.location.href = "/users.html";
     }
