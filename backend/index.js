@@ -47,43 +47,76 @@ app.use("/api/nomina",      require("./routes/nomina"));
 
 const PORT = process.env.PORT || 3000;
 
+async function limpiarIndices() {
+  // Eliminar índices duplicados acumulados por alter:true
+  const tablas = ["usuarios", "clientes", "productos", "ventas", "gastos",
+                  "proveedores", "empleados", "compras", "nomina", "empresas",
+                  "detalle_ventas", "detalle_compras"];
+
+  for (const tabla of tablas) {
+    try {
+      // Obtener índices de la tabla
+      const [indices] = await sequelize.query(
+        `SELECT INDEX_NAME FROM information_schema.STATISTICS 
+         WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '${tabla}'
+         AND INDEX_NAME != 'PRIMARY'
+         GROUP BY INDEX_NAME
+         HAVING COUNT(*) >= 1`
+      );
+
+      // Mapear nombres y eliminar duplicados (dejar solo uno por nombre)
+      const nombres = {};
+      for (const idx of indices) {
+        const name = idx.INDEX_NAME;
+        if (!nombres[name]) {
+          nombres[name] = 0;
+        }
+        nombres[name]++;
+      }
+
+      // Eliminar índices que no sean necesarios para el modelo
+      // Solo eliminamos los índices automáticos de Sequelize (patron: tabla_campo_*)
+      const [allIdx] = await sequelize.query(
+        `SHOW INDEX FROM \`${tabla}\``
+      );
+
+      const seen = new Set();
+      for (const idx of allIdx) {
+        if (idx.Key_name === 'PRIMARY') continue;
+        if (seen.has(idx.Key_name)) {
+          // Índice duplicado — eliminar
+          try {
+            await sequelize.query(`ALTER TABLE \`${tabla}\` DROP INDEX \`${idx.Key_name}\``);
+          } catch(e) { /* ignorar */ }
+        } else {
+          seen.add(idx.Key_name);
+        }
+      }
+    } catch(e) { /* tabla no existe, ignorar */ }
+  }
+}
+
 async function fixTabla(tabla) {
   try {
-    // Si la columna no existe, agregarla con DEFAULT NOW()
-    await sequelize.query(`
-      ALTER TABLE \`${tabla}\` 
-      ADD COLUMN \`createdAt\` DATETIME NOT NULL DEFAULT NOW()
-    `);
-    console.log(`✅ createdAt agregado a ${tabla}`);
-  } catch (e) {
-    // Ya existe o tabla no existe — ignorar
-  }
+    await sequelize.query(
+      `ALTER TABLE \`${tabla}\` ADD COLUMN \`createdAt\` DATETIME NOT NULL DEFAULT NOW()`
+    );
+  } catch (e) { /* ya existe */ }
 
   try {
-    await sequelize.query(`
-      ALTER TABLE \`${tabla}\` 
-      ADD COLUMN \`updatedAt\` DATETIME NOT NULL DEFAULT NOW()
-    `);
-    console.log(`✅ updatedAt agregado a ${tabla}`);
-  } catch (e) {
-    // Ya existe — ignorar
-  }
+    await sequelize.query(
+      `ALTER TABLE \`${tabla}\` ADD COLUMN \`updatedAt\` DATETIME NOT NULL DEFAULT NOW()`
+    );
+  } catch (e) { /* ya existe */ }
 
   try {
-    // Si existe con valor inválido, corregir
-    await sequelize.query(`
-      UPDATE \`${tabla}\` 
-      SET createdAt = NOW() 
-      WHERE createdAt = '0000-00-00 00:00:00' OR createdAt IS NULL
-    `);
-    await sequelize.query(`
-      UPDATE \`${tabla}\` 
-      SET updatedAt = NOW() 
-      WHERE updatedAt = '0000-00-00 00:00:00' OR updatedAt IS NULL
-    `);
-  } catch (e) {
-    // Ignorar
-  }
+    await sequelize.query(
+      `UPDATE \`${tabla}\` SET createdAt = NOW() WHERE createdAt = '0000-00-00 00:00:00' OR createdAt IS NULL`
+    );
+    await sequelize.query(
+      `UPDATE \`${tabla}\` SET updatedAt = NOW() WHERE updatedAt = '0000-00-00 00:00:00' OR updatedAt IS NULL`
+    );
+  } catch (e) { /* ignorar */ }
 }
 
 async function iniciar() {
@@ -97,7 +130,20 @@ async function iniciar() {
     }
     console.log("✅ Fix de fechas completado");
 
-    await sequelize.sync({ alter: true });
+    // Agregar columna rol si no existe
+    try {
+      await sequelize.query(
+        `ALTER TABLE \`usuarios\` ADD COLUMN \`rol\` ENUM('admin','empleado','desarrollador') NOT NULL DEFAULT 'admin'`
+      );
+      console.log("✅ Columna rol agregada");
+    } catch (e) { /* ya existe */ }
+
+    // Limpiar índices duplicados antes del sync
+    await limpiarIndices();
+    console.log("✅ Índices limpiados");
+
+    // Usar force:false para no modificar estructura — solo crear tablas faltantes
+    await sequelize.sync({ force: false });
     console.log("✅ Base de datos sincronizada");
 
     app.listen(PORT, () => console.log(`🚀 Servidor en puerto ${PORT}`));
