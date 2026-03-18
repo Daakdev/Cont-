@@ -53,18 +53,6 @@ router.post("/register-dev", async (req, res) => {
   }
 });
 
-// GET /api/auth/verify - Check token validity
-const auth = require("../middleware/auth");
-
-router.get("/verify", auth, (req, res) => {
-  res.json({ 
-    valid: true, 
-    empresaId: req.empresaId,
-    usuario: req.usuarioId,
-    rol: req.rol 
-  });
-});
-
 // POST /api/auth/login
 router.post("/login", async (req, res) => {
   const { usuario, password } = req.body;
@@ -98,6 +86,30 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     console.error("Error en /login:", err);
     res.status(500).json({ error: "Error en servidor" });
+  }
+});
+
+
+// POST /api/auth/fix-empresa  →  crea y asigna empresa a usuarios sin empresa_id
+// Endpoint temporal — eliminar en producción final
+router.post("/fix-empresa", async (req, res) => {
+  const { dev_secret } = req.body;
+  if (!dev_secret || dev_secret !== process.env.DEV_SECRET) {
+    return res.status(403).json({ error: "No autorizado" });
+  }
+  try {
+    const usuarios = await Usuario.findAll({ where: { empresa_id: null } });
+    const resultados = [];
+    for (const u of usuarios) {
+      let empresa = await Empresa.findOne({ where: { nombre: `Empresa de ${u.usuario}` } });
+      if (!empresa) empresa = await Empresa.create({ nombre: `Empresa de ${u.usuario}` });
+      await u.update({ empresa_id: empresa.id });
+      resultados.push({ usuario: u.usuario, empresa_id: empresa.id });
+    }
+    res.json({ mensaje: `${resultados.length} usuario(s) corregidos`, resultados });
+  } catch (err) {
+    console.error("Error en /fix-empresa:", err.message);
+    res.status(500).json({ error: err.message });
   }
 });
 
