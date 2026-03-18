@@ -44,6 +44,8 @@ app.use("/api/proveedores", require("./routes/proveedores"));
 app.use("/api/empleados",   require("./routes/empleados"));
 app.use("/api/compras",     require("./routes/compras"));
 app.use("/api/nomina",      require("./routes/nomina"));
+app.use("/api/configuracion", require("./routes/configuracion"));
+app.use("/api/configuracion", require("./routes/configuracion"));
 
 const PORT = process.env.PORT || 3000;
 
@@ -129,6 +131,24 @@ async function iniciar() {
       await fixTabla(tabla);
     }
     console.log("✅ Fix de fechas completado");
+
+    // Agregar columnas de configuración a empresas si no existen
+    const colsEmpresa = [
+      "ALTER TABLE `empresas` ADD COLUMN `rut` VARCHAR(30)",
+      "ALTER TABLE `empresas` ADD COLUMN `telefono` VARCHAR(30)",
+      "ALTER TABLE `empresas` ADD COLUMN `direccion` VARCHAR(255)",
+      "ALTER TABLE `empresas` ADD COLUMN `email` VARCHAR(150)",
+      "ALTER TABLE `empresas` ADD COLUMN `web` VARCHAR(150)",
+      "ALTER TABLE `empresas` ADD COLUMN `moneda` VARCHAR(10) DEFAULT 'COP'",
+      "ALTER TABLE `empresas` ADD COLUMN `iva` DECIMAL(5,2) DEFAULT 0",
+      "ALTER TABLE `empresas` ADD COLUMN `retencion` DECIMAL(5,2) DEFAULT 0",
+      "ALTER TABLE `empresas` ADD COLUMN `stock_min_alerta` INT DEFAULT 10",
+      "ALTER TABLE `empresas` ADD COLUMN `formato_factura` ENUM('electronica','manual') DEFAULT 'electronica'",
+    ];
+    for (const q of colsEmpresa) {
+      try { await sequelize.query(q); } catch(e) { /* ya existe */ }
+    }
+    console.log("✅ Columnas empresa actualizadas");
 
     // Agregar columna rol si no existe
     try {
