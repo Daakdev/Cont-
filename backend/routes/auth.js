@@ -53,6 +53,18 @@ router.post("/register-dev", async (req, res) => {
   }
 });
 
+// GET /api/auth/verify - Check token validity
+const auth = require("../middleware/auth");
+
+router.get("/verify", auth, (req, res) => {
+  res.json({ 
+    valid: true, 
+    empresaId: req.empresaId,
+    usuario: req.usuarioId,
+    rol: req.rol 
+  });
+});
+
 // POST /api/auth/login
 router.post("/login", async (req, res) => {
   const { usuario, password } = req.body;
