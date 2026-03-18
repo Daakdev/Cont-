@@ -113,4 +113,39 @@ router.post("/fix-empresa", async (req, res) => {
   }
 });
 
+
+// POST /api/auth/listar-usuarios  →  ver todos los usuarios
+router.post("/listar-usuarios", async (req, res) => {
+  const { dev_secret } = req.body;
+  if (!dev_secret || dev_secret !== process.env.DEV_SECRET) {
+    return res.status(403).json({ error: "No autorizado" });
+  }
+  try {
+    const usuarios = await Usuario.findAll({
+      attributes: ["id", "usuario", "correo", "rol", "empresa_id"],
+      include: [{ model: Empresa, as: "empresa", attributes: ["nombre"] }]
+    });
+    res.json({ usuarios });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/auth/eliminar-usuario  →  eliminar usuario por id
+router.post("/eliminar-usuario", async (req, res) => {
+  const { dev_secret, id } = req.body;
+  if (!dev_secret || dev_secret !== process.env.DEV_SECRET) {
+    return res.status(403).json({ error: "No autorizado" });
+  }
+  if (!id) return res.status(400).json({ error: "Falta el id" });
+  try {
+    const u = await Usuario.findByPk(id);
+    if (!u) return res.status(404).json({ error: "Usuario no encontrado" });
+    await u.destroy();
+    res.json({ mensaje: `Usuario ${u.usuario} eliminado` });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;

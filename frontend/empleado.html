@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cont+ · Empleado</title>
+  <link rel="shortcut icon" href="/assets/img/favicon2.svg" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/assets/css/stylesEmp.css"/>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img class="sidebar-logo" src="/assets/img/logo.svg" alt="">
+    <img src="/assets/img/icon.svg" alt="" class="sidebar-icon">
+  </div>
+
+  <div class="sidebar-user">
+    <span class="user-avatar inicialUsuario"></span>
+    <div class="user-info">
+      <div class="user-name"><span class="usuario-login"></span></div>
+      <div class="user-role">Empleado</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-title">Principal</div>
+    <div class="nav-item active" onclick="showModule('inicio', this)">
+      <img src="/assets/img/home.png" alt="">
+      <span class="nav-label">Inicio</span>
+    </div>
+
+    <div class="nav-section-title">Mi Espacio</div>
+    <div class="nav-item" onclick="showModule('perfil', this)">
+      <img src="/assets/img/clients.png" alt="">
+      <span class="nav-label">Mi Perfil</span>
+    </div>
+    <div class="nav-item" onclick="showModule('nomina', this)">
+      <img src="/assets/img/price.png" alt="">
+      <span class="nav-label">Mi Nómina</span>
+    </div>
+    <div class="nav-item" onclick="showModule('horario', this)">
+      <img src="/assets/img/barcode.png" alt="">
+      <span class="nav-label">Mi Horario</span>
+    </div>
+    <div class="nav-item" onclick="showModule('solicitudes', this)">
+      <img src="/assets/img/configure.png" alt="">
+      <span class="nav-label">Solicitudes</span>
+    </div>
+  </nav>
+
+  <div class="sidebar-toggle" onclick="toggleSidebar()">
+    <div class="toggle-icon"><span></span><span></span><span></span></div>
+    <span class="toggle-label">Contraer</span>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <span class="topbar-title" id="topbar-title">Inicio</span>
+    <div class="topbar-actions">
+      <button class="topbar-btn"><div class="btn-icon" style="border-radius:3px;"></div></button>
+      <button class="topbar-btn"><div class="btn-icon"></div><span class="notif-dot"></span></button>
+      <button class="topbar-btn"><div class="btn-icon"></div></button>
+      <div class="topbar-user">
+        <button onclick="logout()"><img src="/assets/img/logout.png" alt=""></button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ INICIO ═══════════════ -->
+  <div class="module active" id="mod-inicio">
+    <div class="content">
+      <div class="greeting">
+        <h2>Buenos días, <span class="nombreUsuario"></span> 👋</h2>
+        <p>Aquí tienes tu resumen personal de hoy.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon c-blue"><img src="/assets/img/price.png" alt=""></div>
+          <div class="stat-info">
+            <div class="stat-label">Próximo Pago</div>
+            <div class="stat-value">30 Jun</div>
+            <div class="stat-change">2025</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon c-green"><img src="/assets/img/home.png" alt=""></div>
+          <div class="stat-info">
+            <div class="stat-label">Días Trabajados</div>
+            <div class="stat-value">22</div>
+            <div class="stat-change">Este mes</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon c-orange"><img src="/assets/img/configure.png" alt=""></div>
+          <div class="stat-info">
+            <div class="stat-label">Solicitudes</div>
+            <div class="stat-value" id="ini-solicitudes">1</div>
+            <div class="stat-change">Pendiente</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon c-teal"><img src="/assets/img/clients.png" alt=""></div>
+          <div class="stat-info">
+            <div class="stat-label">Vacaciones</div>
+            <div class="stat-value">12</div>
+            <div class="stat-change">Días disponibles</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-grid">
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">📅 Mi Horario Esta Semana</span>
+            <span class="panel-link" onclick="showModule('horario', document.querySelector('[onclick*=horario]'))">Ver completo →</span>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;padding:6px 0;">
+            <div class="wday on"><span class="wday-name">L</span><span class="wday-time">08:00</span></div>
+            <div class="wday on"><span class="wday-name">M</span><span class="wday-time">08:00</span></div>
+            <div class="wday on"><span class="wday-name">X</span><span class="wday-time">08:00</span></div>
+            <div class="wday on"><span class="wday-name">J</span><span class="wday-time">08:00</span></div>
+            <div class="wday on"><span class="wday-name">V</span><span class="wday-time">08:00</span></div>
+            <div class="wday off"><span class="wday-name">S</span><span class="wday-time">—</span></div>
+            <div class="wday off"><span class="wday-name">D</span><span class="wday-time">—</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">💳 Resumen Nómina</span>
+            <span class="panel-link" onclick="showModule('nomina', document.querySelector('[onclick*=nomina]'))">Ver desglose →</span>
+          </div>
+          <div class="nomina-resumen">
+            <div class="nomina-fila"><span class="nom-label">Sueldo bruto</span><span class="nom-valor">$1,300,000</span></div>
+            <div class="nomina-fila"><span class="nom-label">Horas extra</span><span class="nom-valor plus">+ $48,750</span></div>
+            <div class="nomina-fila"><span class="nom-label">Descuentos</span><span class="nom-valor minus">− $104,000</span></div>
+            <div class="nomina-fila"><span class="nom-label">Neto a recibir</span><span class="nom-valor total">$1,244,750</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ MI PERFIL ═══════════════ -->
+  <div class="module" id="mod-perfil">
+    <div class="page-header">
+      <div>
+        <div class="page-title">👤 Mi Perfil</div>
+        <div class="page-subtitle">Datos personales y laborales</div>
+      </div>
+      <button class="btn btn-secondary">✏️ Solicitar cambio</button>
+    </div>
+    <div class="content">
+
+      <div class="perfil-hero">
+        <div id="perfil-avatar" class="perfil-avatar">?</div>
+        <div>
+          <div id="perfil-nombre" class="perfil-nombre">—</div>
+          <div class="perfil-dato">📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="56333b263a3337323916333b26243325377835393b">[email&#160;protected]</a></div>
+          <div class="perfil-dato">📞 +57 300 000 0000</div>
+          <div class="perfil-dato">🗓️ Ingreso: 01/01/2024</div>
+          <span class="perfil-tag">Empleado activo</span>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="form-card">
+          <div class="form-section-title">🏢 Información Laboral</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Cargo</label><input type="text" value="Operario de Producción" readonly style="background:#f4f6fb;"/></div>
+            <div class="form-group"><label>Departamento</label><input type="text" value="Producción" readonly style="background:#f4f6fb;"/></div>
+            <div class="form-group"><label>Tipo de Contrato</label><input type="text" value="Término fijo" readonly style="background:#f4f6fb;"/></div>
+            <div class="form-group"><label>Jornada</label><input type="text" value="Lunes a Viernes · 8h" readonly style="background:#f4f6fb;"/></div>
+            <div class="form-group"><label>Sueldo Base</label><input type="text" value="$1,300,000 COP" readonly style="background:#f4f6fb;"/></div>
+            <div class="form-group"><label>Fecha de Ingreso</label><input type="text" value="01/01/2024" readonly style="background:#f4f6fb;"/></div>
+          </div>
+        </div>
+        <div class="form-card">
+          <div class="form-section-title">🏥 Seguridad Social</div>
+          <div class="form-grid">
+            <div class="form-group"><label>EPS</label><input type="text" value="Compensar" readonly style="background:#f4f6fb;"/></div>
+            <div class="form-group"><label>ARL</label><input type="text" value="Positiva" readonly style="background:#f4f6fb;"/></div>
+            <div class="form-group"><label>Fondo de Pensión</label><input type="text" value="Porvenir" readonly style="background:#f4f6fb;"/></div>
+            <div class="form-group"><label>Caja de Compensación</label><input type="text" value="Compensar" readonly style="background:#f4f6fb;"/></div>
+          </div>
+          <div class="form-section-title" style="margin-top:20px;">📅 Horario Habitual</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+            <div class="wday-sm on"><span class="wday-name">L</span><span class="wday-time">08:00</span></div>
+            <div class="wday-sm on"><span class="wday-name">M</span><span class="wday-time">08:00</span></div>
+            <div class="wday-sm on"><span class="wday-name">X</span><span class="wday-time">08:00</span></div>
+            <div class="wday-sm on"><span class="wday-name">J</span><span class="wday-time">08:00</span></div>
+            <div class="wday-sm on"><span class="wday-name">V</span><span class="wday-time">08:00</span></div>
+            <div class="wday-sm off"><span class="wday-name">S</span><span class="wday-time">—</span></div>
+            <div class="wday-sm off"><span class="wday-name">D</span><span class="wday-time">—</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ MI NÓMINA ═══════════════ -->
+  <div class="module" id="mod-nomina">
+    <div class="page-header">
+      <div>
+        <div class="page-title">💳 Mi Nómina</div>
+        <div class="page-subtitle">Desprendibles y historial de pagos</div>
+      </div>
+      <button class="btn btn-secondary">📄 Descargar desprendible</button>
+    </div>
+    <div class="content">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Sueldo Bruto</div><div class="stat-value">$1,300,000</div><div class="stat-change">Junio 2025</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Horas Extra</div><div class="stat-value">$48,750</div><div class="stat-change up">+ 4 horas</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-red"></div><div class="stat-info"><div class="stat-label">Descuentos</div><div class="stat-value">$104,000</div><div class="stat-change">Salud + Pensión</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Neto a Recibir</div><div class="stat-value" style="color:#009dff;">$1,244,750</div><div class="stat-change">30 Jun 2025</div></div></div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <span class="table-title">Desglose — Junio 2025</span>
+          <span class="badge badge-blue">Período actual</span>
+        </div>
+        <table>
+          <thead><tr><th>Concepto</th><th>Tipo</th><th>Valor</th></tr></thead>
+          <tbody>
+            <tr><td>Sueldo básico</td><td><span class="badge badge-green">Ingreso</span></td><td style="font-weight:800;color:#22c55e;">+ $1,300,000</td></tr>
+            <tr><td>Horas extra (4 h)</td><td><span class="badge badge-green">Ingreso</span></td><td style="font-weight:800;color:#22c55e;">+ $48,750</td></tr>
+            <tr><td>Salud (4%)</td><td><span class="badge badge-red">Descuento</span></td><td style="font-weight:800;color:#ef4444;">− $52,000</td></tr>
+            <tr><td>Pensión (4%)</td><td><span class="badge badge-red">Descuento</span></td><td style="font-weight:800;color:#ef4444;">− $52,000</td></tr>
+            <tr><td><strong>Total neto</strong></td><td></td><td style="font-size:17px;font-weight:800;color:#009dff;"><strong>$1,244,750</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header"><span class="table-title">Historial de Pagos</span></div>
+        <table>
+          <thead><tr><th>Período</th><th>Bruto</th><th>Descuentos</th><th>Neto</th><th>Estado</th><th>Acción</th></tr></thead>
+          <tbody>
+            <tr><td>Mayo 2025</td><td>$1,300,000</td><td>$104,000</td><td style="font-weight:800;">$1,196,000</td><td><span class="badge badge-green">✔ Pagado</span></td><td><button class="btn btn-secondary" style="padding:5px 12px;font-size:12px;">📄 Descargar</button></td></tr>
+            <tr><td>Abril 2025</td><td>$1,300,000</td><td>$104,000</td><td style="font-weight:800;">$1,196,000</td><td><span class="badge badge-green">✔ Pagado</span></td><td><button class="btn btn-secondary" style="padding:5px 12px;font-size:12px;">📄 Descargar</button></td></tr>
+            <tr><td>Marzo 2025</td><td>$1,300,000</td><td>$104,000</td><td style="font-weight:800;">$1,196,000</td><td><span class="badge badge-green">✔ Pagado</span></td><td><button class="btn btn-secondary" style="padding:5px 12px;font-size:12px;">📄 Descargar</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ MI HORARIO ═══════════════ -->
+  <div class="module" id="mod-horario">
+    <div class="page-header">
+      <div>
+        <div class="page-title">🗓️ Mi Horario</div>
+        <div class="page-subtitle">Asistencia y registro de turnos</div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon c-green"></div><div class="stat-info"><div class="stat-label">Días Trabajados</div><div class="stat-value">22 / 22</div><div class="stat-change up">Sin faltas</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-blue"></div><div class="stat-info"><div class="stat-label">Horas Trabajadas</div><div class="stat-value">176 h</div><div class="stat-change">Este mes</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-orange"></div><div class="stat-info"><div class="stat-label">Horas Extra</div><div class="stat-value">4 h</div><div class="stat-change up">Miércoles</div></div></div>
+        <div class="stat-card"><div class="stat-icon c-teal"></div><div class="stat-info"><div class="stat-label">Ausencias</div><div class="stat-value" style="color:#22c55e;">0</div><div class="stat-change">Este mes</div></div></div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header"><span class="table-title">Registro Semanal — Junio 2025</span></div>
+        <table>
+          <thead><tr><th>Día</th><th>Entrada</th><th>Salida</th><th>Horas</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td>Lunes 23 Jun</td><td>07:58</td><td>17:02</td><td>8 h</td><td><span class="badge badge-green">✔ Normal</span></td></tr>
+            <tr><td>Martes 24 Jun</td><td>08:05</td><td>17:00</td><td>8 h</td><td><span class="badge badge-green">✔ Normal</span></td></tr>
+            <tr><td>Miércoles 25 Jun</td><td>07:52</td><td>19:05</td><td>10 h</td><td><span class="badge badge-orange">⏱ Extra</span></td></tr>
+            <tr><td>Jueves 26 Jun</td><td>08:00</td><td>17:00</td><td>8 h</td><td><span class="badge badge-green">✔ Normal</span></td></tr>
+            <tr><td>Viernes 27 Jun</td><td>—</td><td>—</td><td>—</td><td><span class="badge" style="background:#f0f4fb;color:#aaa;">Pendiente</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header"><span class="table-title">Resumen Mensual — Junio 2025</span></div>
+        <table>
+          <thead><tr><th>Semana</th><th>Días</th><th>Horas</th><th>Extra</th><th>Ausencias</th></tr></thead>
+          <tbody>
+            <tr><td>Semana 1 (2–6 Jun)</td><td>5</td><td>40 h</td><td>0 h</td><td>0</td></tr>
+            <tr><td>Semana 2 (9–13 Jun)</td><td>5</td><td>40 h</td><td>0 h</td><td>0</td></tr>
+            <tr><td>Semana 3 (16–20 Jun)</td><td>5</td><td>40 h</td><td>0 h</td><td>0</td></tr>
+            <tr><td>Semana 4 (23–27 Jun)</td><td>4</td><td>34 h</td><td>2 h</td><td>0</td></tr>
+            <tr><td><strong>Total</strong></td><td><strong>22</strong></td><td><strong>176 h</strong></td><td><strong>4 h</strong></td><td><strong>0</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ SOLICITUDES ═══════════════ -->
+  <div class="module" id="mod-solicitudes">
+    <div class="page-header">
+      <div>
+        <div class="page-title">📝 Solicitudes</div>
+        <div class="page-subtitle">Vacaciones, permisos y certificados</div>
+      </div>
+    </div>
+    <div class="content">
+
+      <div class="form-card">
+        <div class="form-section-title">➕ Nueva Solicitud</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Tipo de Solicitud</label>
+            <select id="sol-tipo">
+              <option value="">Seleccionar...</option>
+              <option value="Vacaciones">Vacaciones</option>
+              <option value="Permiso">Permiso</option>
+              <option value="Certificado laboral">Certificado laboral</option>
+              <option value="Paz y salvo">Paz y salvo</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Días Solicitados</label>
+            <input type="number" id="sol-dias" placeholder="0" min="1"/>
+          </div>
+          <div class="form-group">
+            <label>Fecha Inicio</label>
+            <input type="date" id="sol-ini"/>
+          </div>
+          <div class="form-group">
+            <label>Fecha Fin</label>
+            <input type="date" id="sol-fin"/>
+          </div>
+          <div class="form-group full">
+            <label>Motivo / Descripción</label>
+            <textarea id="sol-motivo" placeholder="Describe el motivo de tu solicitud..."></textarea>
+          </div>
+        </div>
+        <div class="sol-acciones">
+          <button class="btn btn-primary" onclick="enviarSolicitud()">📤 Enviar Solicitud</button>
+          <button class="btn btn-secondary" onclick="limpiarSolicitud()">✕ Limpiar</button>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <span class="table-title">Mis Solicitudes</span>
+          <span id="sol-total" style="font-size:12px;color:#999;"></span>
+        </div>
+        <table>
+          <thead><tr><th>Tipo</th><th>Fechas</th><th>Días</th><th>Enviada</th><th>Estado</th></tr></thead>
+          <tbody id="sol-tbody">
+            <tr>
+              <td>Vacaciones</td><td>01 Jul – 05 Jul 2025</td><td>5</td><td>20 Jun 2025</td>
+              <td><span class="badge badge-orange">⏳ Pendiente</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+<script src="/assets/js/empleado.js"></script>
+</body>
+</html> 
