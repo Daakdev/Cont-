@@ -312,18 +312,34 @@ async function cargarUsuarios() {
   }
 
   try {
-    const res = await apiFetch('/usuarios-dev');
-    if (!res || !res.ok) {
-      // Si no existe el endpoint dev, mostrar datos del token actual
+    // Usar el endpoint de listar con dev_secret
+    const devSecret = 'dev_cont_2026';
+    const res = await fetch(API_URL.replace('/api', '') + '/api/auth/listar-usuarios', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dev_secret: devSecret })
+    });
+
+    if (!res.ok) {
       mostrarUsuarioActual();
+      addLog('WARN', 'No se pudo cargar la lista de usuarios — ' + res.status);
       return;
     }
+
     const data = await res.json();
-    usuariosData = data;
-    renderUsuarios(data);
+    const lista = data.usuarios || [];
+    usuariosData = lista.map(u => ({
+      nombre:        u.usuario,
+      email:         u.correo,
+      rol:           u.rol,
+      empresa_id:    u.empresa_id,
+      empresa_nombre: u.empresa?.nombre || '—'
+    }));
+    renderUsuarios(usuariosData);
+    addLog('OK', `${usuariosData.length} usuario(s) del sistema cargados`);
   } catch (e) {
     mostrarUsuarioActual();
-    addLog('WARN', 'Endpoint /usuarios-dev no disponible — mostrando usuario actual');
+    addLog('WARN', 'Error al cargar usuarios: ' + e.message);
   }
 }
 
@@ -461,12 +477,18 @@ async function recargarMetricas() {
    INICIALIZACIÓN
 ────────────────────────────── */
 document.addEventListener('DOMContentLoaded', async () => {
-  // Verificar sesión
+  // Verificar sesión y rol
   const token = getToken();
   const usuario = getUsuario();
 
   if (!token) {
     window.location.href = '/index.html';
+    return;
+  }
+
+  if (usuario.rol && usuario.rol !== 'desarrollador') {
+    // Tiene sesión pero no es desarrollador — redirigir a su panel
+    window.location.href = '/users.html';
     return;
   }
 
