@@ -31,7 +31,7 @@
             <label class="form-label">Contraseña</label>
             <img src="/assets/img/eyeOn.png" class="toggle-password" onclick="togglePassword('password', this)" alt="">
         </div>
-        <a class="forgot">Olvidaste tu contraseña?</a>
+        <a class="forgot" onclick="showForgot">Olvidaste tu contraseña?</a>
         <button onclick="iniciarSesion()">Iniciar Sesión</button>
     </div>
 
@@ -79,6 +79,75 @@
         <button onclick="closeAlert()">Cerrar</button>
     </div>
 </div> <!-- ← cierre alert-overlay -->
+<!-- MODAL OLVIDASTE CONTRASEÑA -->
+<div class="alert-overlay" id="forgotOverlay" style="display:none">
+  <div class="alert-box" style="max-width:380px;width:90%;padding:2rem">
+
+    <!-- Paso 1: correo -->
+    <div id="fp-step1">
+      <h3 style="margin:0 0 0.5rem">Restablecer contraseña</h3>
+      <p style="font-size:13px;color:#888;margin:0 0 1.2rem">
+        Ingresa tu correo y te enviaremos un código de 6 dígitos.
+      </p>
+      <div class="input-group">
+        <input type="email" id="fp-correo" placeholder=" " />
+        <label class="form-label">Correo electrónico</label>
+      </div>
+      <p id="fp-error1" class="error-register"></p>
+      <button onclick="fpEnviarCodigo()">Enviar código</button>
+      <a class="forgot" style="display:block;text-align:center;margin-top:10px"
+         onclick="closeForgot()">Cancelar</a>
+    </div>
+
+    <!-- Paso 2: código -->
+    <div id="fp-step2" style="display:none">
+      <h3 style="margin:0 0 0.5rem">Revisa tu correo</h3>
+      <p style="font-size:13px;color:#888;margin:0 0 1.2rem">
+        Enviamos un código a <strong id="fp-correo-shown"></strong>
+      </p>
+      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:1.2rem">
+        <input class="fp-digit" maxlength="1" id="fp-d0" oninput="fpMoveNext(this,1)" onkeydown="fpMovePrev(event,0)" />
+        <input class="fp-digit" maxlength="1" id="fp-d1" oninput="fpMoveNext(this,2)" onkeydown="fpMovePrev(event,1)" />
+        <input class="fp-digit" maxlength="1" id="fp-d2" oninput="fpMoveNext(this,3)" onkeydown="fpMovePrev(event,2)" />
+        <input class="fp-digit" maxlength="1" id="fp-d3" oninput="fpMoveNext(this,4)" onkeydown="fpMovePrev(event,3)" />
+        <input class="fp-digit" maxlength="1" id="fp-d4" oninput="fpMoveNext(this,5)" onkeydown="fpMovePrev(event,4)" />
+        <input class="fp-digit" maxlength="1" id="fp-d5" oninput="fpMoveNext(this,-1)" onkeydown="fpMovePrev(event,5)" />
+      </div>
+      <p id="fp-error2" class="error-register"></p>
+      <button onclick="fpVerificarCodigo()">Verificar código</button>
+      <p style="text-align:center;font-size:13px;margin-top:10px;color:#888">
+        ¿No llegó?
+        <a class="forgot" style="display:inline" id="fp-resend-btn" onclick="fpReenviar()">
+          Reenviar <span id="fp-timer"></span>
+        </a>
+      </p>
+    </div>
+
+    <!-- Paso 3: nueva contraseña -->
+    <div id="fp-step3" style="display:none">
+      <h3 style="margin:0 0 0.5rem">Nueva contraseña</h3>
+      <p style="font-size:13px;color:#888;margin:0 0 1.2rem">
+        Elige una contraseña segura.
+      </p>
+      <div class="input-group">
+        <input type="password" id="fp-pw1" placeholder=" " oninput="fpCheckStrength()" />
+        <label class="form-label">Nueva contraseña</label>
+        <img src="/assets/img/eyeOn.png" class="toggle-password"
+             onclick="togglePassword('fp-pw1', this)" alt="">
+      </div>
+      <div class="strength-meter" id="fp-strength"></div>
+      <div class="input-group" style="margin-top:0.8rem">
+        <input type="password" id="fp-pw2" placeholder=" " />
+        <label class="form-label">Confirmar contraseña</label>
+        <img src="/assets/img/eyeOn.png" class="toggle-password"
+             onclick="togglePassword('fp-pw2', this)" alt="">
+      </div>
+      <p id="fp-error3" class="error-register"></p>
+      <button onclick="fpCambiarPassword()">Cambiar contraseña</button>
+    </div>
+
+  </div>
+</div>
 
 <script src="/assets/js/script.js"></script>
 </body>

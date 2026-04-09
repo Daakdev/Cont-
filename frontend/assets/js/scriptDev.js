@@ -52,7 +52,6 @@ function fmtMoney(n) {
 const MODULE_TITLES = {
   inicio: 'Inicio',
   panel: 'Panel Técnico',
-  modulos: 'Módulos',
   usuarios: 'Usuarios',
   logs: 'Logs del Sistema',
   config: 'Configuración del Sistema'
@@ -417,28 +416,6 @@ function crearUsuario() {
   alert('Para crear usuarios, usa el módulo de Configuración en el panel principal (users.html).');
 }
 
-/* ──────────────────────────────
-   MÓDULOS — TOGGLE
-────────────────────────────── */
-function toggleModulo(el) {
-  const eraOn = el.classList.contains('on');
-  el.classList.toggle('on');
-  el.classList.toggle('off');
-  const nombre = el.closest('tr')?.querySelector('strong')?.textContent || 'Módulo';
-  const estado = eraOn ? 'desactivado' : 'activado';
-  addLog('INFO', `${nombre} ${estado}`);
-}
-
-function guardarModulos() {
-  const toggles = document.querySelectorAll('#mod-modulos .toggle-pill');
-  const estado = [...toggles].map((t, i) => ({
-    indice: i,
-    activo: t.classList.contains('on')
-  }));
-  localStorage.setItem('dev_modulos', JSON.stringify(estado));
-  addLog('OK', `Configuración de módulos guardada (${toggles.length} módulos)`);
-  alert('✅ Configuración guardada en LocalStorage.');
-}
 
 /* ──────────────────────────────
    CONFIG SISTEMA

@@ -25,7 +25,7 @@ function togglePassword(id, img) {
   const input = document.getElementById(id);
   const isHidden = input.type === "password";
   input.type = isHidden ? "text" : "password";
-  img.src = isHidden ? "/assets/img/eyeOff.png" : "/assets/img/eyeOn.png";
+  img.src = isHidden ? "/assets/img/eyeOff.svg" : "/assets/img/eyeOn.png";
 }
 
 /* ══════════════════════════════════════════
@@ -164,3 +164,153 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+// ─── OLVIDASTE CONTRASEÑA ───────────────────────────────────────
+let fpToken = '';
+let fpTimerInterval;
+
+function showForgot() {
+  fpReset();
+  document.getElementById('forgotOverlay').style.display = 'flex';
+}
+
+function closeForgot() {
+  document.getElementById('forgotOverlay').style.display = 'none';
+  fpReset();
+}
+
+function fpReset() {
+  ['fp-step1','fp-step2','fp-step3'].forEach((id, i) =>
+    document.getElementById(id).style.display = i === 0 ? 'block' : 'none'
+  );
+  ['fp-error1','fp-error2','fp-error3'].forEach(id =>
+    document.getElementById(id).textContent = ''
+  );
+  document.getElementById('fp-correo').value = '';
+  for (let i = 0; i < 6; i++) document.getElementById('fp-d'+i).value = '';
+  document.getElementById('fp-pw1').value = '';
+  document.getElementById('fp-pw2').value = '';
+  clearInterval(fpTimerInterval);
+}
+
+// Paso 1: enviar código
+async function fpEnviarCodigo() {
+  const correo = document.getElementById('fp-correo').value.trim();
+  if (!correo) return document.getElementById('fp-error1').textContent = 'Ingresa tu correo.';
+
+  try {
+    const res = await fetch('/api/password/forgot', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ correo })
+    });
+    // Siempre avanza (respuesta genérica del backend)
+    document.getElementById('fp-correo-shown').textContent = correo;
+    document.getElementById('fp-step1').style.display = 'none';
+    document.getElementById('fp-step2').style.display = 'block';
+    document.getElementById('fp-d0').focus();
+    fpStartTimer();
+  } catch {
+    document.getElementById('fp-error1').textContent = 'Error de conexión. Intenta de nuevo.';
+  }
+}
+
+// Paso 2: verificar código
+async function fpVerificarCodigo() {
+  const correo = document.getElementById('fp-correo').value.trim();
+  const code = [0,1,2,3,4,5].map(i => document.getElementById('fp-d'+i).value).join('');
+
+  if (code.length < 6) return document.getElementById('fp-error2').textContent = 'Ingresa los 6 dígitos.';
+
+  try {
+    const res = await fetch('/api/password/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ correo, code })
+    });
+    const data = await res.json();
+
+    if (!res.ok) return document.getElementById('fp-error2').textContent = data.error;
+
+    fpToken = data.token;
+    clearInterval(fpTimerInterval);
+    document.getElementById('fp-step2').style.display = 'none';
+    document.getElementById('fp-step3').style.display = 'block';
+  } catch {
+    document.getElementById('fp-error2').textContent = 'Error de conexión. Intenta de nuevo.';
+  }
+}
+
+// Paso 3: cambiar contraseña
+async function fpCambiarPassword() {
+  const correo = document.getElementById('fp-correo').value.trim();
+  const pw1 = document.getElementById('fp-pw1').value;
+  const pw2 = document.getElementById('fp-pw2').value;
+
+  if (pw1.length < 8) return document.getElementById('fp-error3').textContent = 'Mínimo 8 caracteres.';
+  if (pw1 !== pw2) return document.getElementById('fp-error3').textContent = 'Las contraseñas no coinciden.';
+
+  try {
+    const res = await fetch('/api/password/reset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ correo, token: fpToken, newPassword: pw1 })
+    });
+    const data = await res.json();
+
+    if (!res.ok) return document.getElementById('fp-error3').textContent = data.error;
+
+    closeForgot();
+    showAlert('success', '¡Contraseña actualizada! Ya puedes iniciar sesión.'); // usa tu función de alertas
+  } catch {
+    document.getElementById('fp-error3').textContent = 'Error de conexión. Intenta de nuevo.';
+  }
+}
+
+// Helpers de código
+function fpMoveNext(el, next) {
+  if (el.value && next >= 0) document.getElementById('fp-d'+next).focus();
+}
+function fpMovePrev(e, idx) {
+  if (e.key === 'Backspace' && !e.target.value && idx > 0)
+    document.getElementById('fp-d'+(idx-1)).focus();
+}
+
+// Timer reenvío
+function fpStartTimer() {
+  let secs = 59;
+  const el = document.getElementById('fp-timer');
+  const btn = document.getElementById('fp-resend-btn');
+  btn.style.pointerEvents = 'none';
+  btn.style.opacity = '0.5';
+  el.textContent = '(0:59)';
+  clearInterval(fpTimerInterval);
+  fpTimerInterval = setInterval(() => {
+    secs--;
+    el.textContent = secs > 0 ? `(0:${secs < 10 ? '0'+secs : secs})` : '';
+    if (secs <= 0) {
+      clearInterval(fpTimerInterval);
+      btn.style.pointerEvents = 'auto';
+      btn.style.opacity = '1';
+      el.textContent = '';
+    }
+  }, 1000);
+}
+
+function fpReenviar() {
+  fpEnviarCodigo();
+}
+
+// Medidor de fortaleza
+function fpCheckStrength() {
+  const pw = document.getElementById('fp-pw1').value;
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+  const bar = document.getElementById('fp-strength');
+  const colors = ['', '#ef4444', '#f97316', '#84cc16', '#22c55e'];
+  const widths = ['0%', '25%', '50%', '75%', '100%'];
+  bar.style.background = `linear-gradient(to right, ${colors[score]} ${widths[score]}, #e5e7eb ${widths[score]})`;
+}

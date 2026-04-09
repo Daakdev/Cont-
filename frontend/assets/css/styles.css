@@ -400,6 +400,19 @@
     to   { transform: scale(1); opacity: 1; }
 }
 
+  .fp-digit {
+    width: 42px;
+    height: 50px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .fp-digit:focus { border-color: var(--primary, #2563eb); }
+
 
 /* ══════════════════════════════════════════════════════
    RESPONSIVE
