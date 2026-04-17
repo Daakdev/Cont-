@@ -1,9 +1,10 @@
-# Tareas Completadas para Diagrama DB
+# TODO: Agregar scroll al panel de usuarios registrados en desarrollador.html
 
-## Plan Aprobado y Ejecutado:
-- [x] Leer todos los archivos de modelos (cliente.js, compra.js, empleado.js, empresa.js, gasto.js, nomina.js, producto.js, proveedor.js, usuario.js, venta.js)
-- [x] Crear database-schema.dbml con sintaxis dbdiagram.io incluyendo todas las tablas y relaciones
-- [ ] (Opcional) Usuario pega en https://dbdiagram.io/d y visualiza
-- [ ] (Opcional) Probar comando: start database-schema.dbml
+✅ **Paso 1:** Crear TODO.md con lista de pasos (completado)  
+✅ **Paso 2:** Editar frontend/desarrollador.html - Agregar clase `usuarios-scrollable` al contenedor de la tabla de usuarios  
+✅ **Paso 3:** Editar frontend/assets/css/stylesDev.css - Agregar estilos para scroll (`max-height`, `overflow-y: auto`, sticky header)  
 
-¡Diagrama listo! Abierto para mejoras.
+**Pendientes:**  
+- [ ] **Paso 4:** Verificar funcionalidad - Navegar al tab Usuarios y confirmar scroll funciona  
+- [ ] **Paso 5:** Completar tarea con attempt_completion
+

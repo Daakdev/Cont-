@@ -46,6 +46,7 @@ app.use("/api/compras",     require("./routes/compras"));
 app.use("/api/nomina",      require("./routes/nomina"));
 app.use("/api/configuracion", require("./routes/configuracion"));
 app.use("/api/configuracion", require("./routes/configuracion"));
+app.use("/api/password", require("./routes/password"));
 
 const PORT = process.env.PORT || 3000;
 

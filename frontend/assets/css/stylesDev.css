@@ -426,6 +426,49 @@ tr:last-child td { border-bottom: none; }
 tr:hover td { background: #fafbff; }
 
 /* ══════════════════════════════════════════
+   SCROLL USUARIOS REGISTRADOS
+══════════════════════════════════════════ */
+.usuarios-scrollable {
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius: 0 0 16px 16px;
+}
+
+.usuarios-scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.usuarios-scrollable::-webkit-scrollbar-track {
+  background: #f8f9ff;
+  border-radius: 3px;
+}
+
+.usuarios-scrollable::-webkit-scrollbar-thumb {
+  background: #c8d1e6;
+  border-radius: 3px;
+}
+
+.usuarios-scrollable::-webkit-scrollbar-thumb:hover {
+  background: #9aa5c1;
+}
+
+.usuarios-scrollable table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fafbfd;
+}
+
+.usuarios-scrollable table th {
+  padding: 14px 22px;
+  border-bottom: 2px solid #e8eaf2;
+}
+
+.usuarios-scrollable table td {
+  padding: 14px 22px;
+}
+
+/* ══════════════════════════════════════════
    BADGES
 ══════════════════════════════════════════ */
 .badge {
