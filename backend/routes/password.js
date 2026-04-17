@@ -1,81 +1,81 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-const { sendResetCode } = require('../config/mailer');
-const Usuario = require('../models/usuario');
 const router = express.Router();
 
 const resetCodes = new Map();
 
-// POST /api/password/forgot
+// POST /api/password/forgot - Solicitar código de reset por correo (sin email real)
 router.post('/forgot', async (req, res) => {
   try {
-    const { correo } = req.body; // ← tu campo se llama "correo", no "email"
+    const { email } = req.body;
 
-    const usuario = await Usuario.findOne({ where: { correo } }); // ← Sequelize usa "where"
-
-    if (!usuario) {
-      return res.json({ message: 'Si el correo existe, recibirás un código.' });
+    if (!email) {
+      return res.status(400).json({ error: "Email requerido" });
     }
 
+    // Buscar usuario por email (campo correo)
+    const usuario = await Usuario.findOne({ where: { correo: email } });
+
+    if (!usuario) {
+      return res.json({ message: "Si el email existe, código enviado (simulado)" });
+    }
+
+    // Generar código 6 dígitos, expira 15min
     const code = crypto.randomInt(100000, 999999).toString();
     const expiresAt = Date.now() + 15 * 60 * 1000;
 
-    resetCodes.set(correo, { code, expiresAt });
-    await sendResetCode(correo, code);
+    resetCodes.set(email, { code, expiresAt, userId: usuario.id, empresaId: usuario.empresa_id });
 
-    res.json({ message: 'Si el correo existe, recibirás un código.' });
+    // Simular envío (sin mailer/Resend)
+    console.log(`Código generado para ${email}: ${code} (expira ${new Date(expiresAt)})`);
+
+    res.json({ message: "Código de recuperación generado (use /verify)", codeSent: true });
   } catch (error) {
-    console.error('Error en forgot:', error);
-    res.status(500).json({ error: 'Error al enviar el correo.' });
+    console.error('Error forgot:', error);
+    res.status(500).json({ error: 'Error interno' });
   }
 });
 
-// POST /api/password/verify
+// POST /api/password/verify - Verificar código
 router.post('/verify', (req, res) => {
-  const { correo, code } = req.body;
-  const record = resetCodes.get(correo);
+  const { email, code } = req.body;
+  const record = resetCodes.get(email);
 
-  if (!record) return res.status(400).json({ error: 'Código inválido o expirado.' });
+  if (!record) return res.status(400).json({ error: 'Código inválido' });
   if (Date.now() > record.expiresAt) {
-    resetCodes.delete(correo);
-    return res.status(400).json({ error: 'El código expiró. Solicita uno nuevo.' });
+    resetCodes.delete(email);
+    return res.status(400).json({ error: 'Código expirado' });
   }
-  if (record.code !== code) return res.status(400).json({ error: 'Código incorrecto.' });
+  if (record.code !== code) return res.status(400).json({ error: 'Código incorrecto' });
 
-  const token = crypto.randomBytes(32).toString('hex');
-  resetCodes.set(correo, { ...record, token, verified: true });
-
-  res.json({ token });
+  res.json({ verified: true, message: 'Código válido' });
 });
 
-// POST /api/password/reset
+// POST /api/password/reset - Reset con código verificado
 router.post('/reset', async (req, res) => {
   try {
-    const { correo, token, newPassword } = req.body;
-    const record = resetCodes.get(correo);
+    const { email, code, password } = req.body;
+    const record = resetCodes.get(email);
 
-    if (!record || !record.verified || record.token !== token) {
-      return res.status(400).json({ error: 'Solicitud inválida.' });
-    }
-    if (Date.now() > record.expiresAt) {
-      resetCodes.delete(correo);
-      return res.status(400).json({ error: 'La sesión expiró. Vuelve a intentarlo.' });
+    if (!record || record.code !== code || Date.now() > record.expiresAt) {
+      return res.status(400).json({ error: 'Código inválido/expirado' });
     }
 
-    const hash = await bcrypt.hash(newPassword, 10);
+    if (password.length < 6) return res.status(400).json({ error: 'Password muy corto' });
 
-    // ← Sequelize: update con where
-    await Usuario.update(
-      { password: hash },
-      { where: { correo } }
-    );
+    const hash = await bcrypt.hash(password, 10);
+    const usuario = await Usuario.findByPk(record.userId);
 
-    resetCodes.delete(correo);
-    res.json({ message: 'Contraseña actualizada exitosamente.' });
+    if (!usuario) return res.status(400).json({ error: 'Usuario no encontrado' });
+
+    await usuario.update({ password: hash });
+    resetCodes.delete(email);
+
+    res.json({ message: 'Contraseña restablecida exitosamente' });
   } catch (error) {
-    console.error('Error en reset:', error);
-    res.status(500).json({ error: 'Error al actualizar la contraseña.' });
+    console.error('Error reset:', error);
+    res.status(500).json({ error: 'Error interno' });
   }
 });
 
